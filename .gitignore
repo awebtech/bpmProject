@@ -1,3 +1,4 @@
 config/config.php
 cache/autoloader.php
+cache/log.php
 nbproject
