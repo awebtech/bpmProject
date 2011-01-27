@@ -1,0 +1,14 @@
+Options +FollowSymLinks -MultiViews -Indexes
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	RewriteBase /bpmProject/public/webservices/
+
+	RewriteCond %{ENV:REDIRECT_STATUS} !^401$
+	RewriteCond %{REQUEST_URI} !^/demo/(payment|admin|provider|partner)/
+	RewriteCond %{REQUEST_FILENAME} !\.(gif|jpe?g|png|js|css|swf|php|ico)$
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteRule ^(.*)$ dispatcher.php [L]
+</IfModule>
