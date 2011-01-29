@@ -1,0 +1,17 @@
+<?php
+
+	/**
+	 * Description of WebService
+	 *
+	 * @author master
+	 */
+	class WebService {
+		private $server = null;
+		protected static  $operations = array();
+
+		function  __construct() {
+			$this->server = new soap_server();
+			
+		}
+	}
+?>

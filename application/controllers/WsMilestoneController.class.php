@@ -1,12 +1,12 @@
 <?php
 	/**
-	 * Description of WSMilestoneController
+	 * Description of WsMilestoneController
 	 *
-	 * @author lenovo
+	 * @author awebtech
 	 */
 	class WsMilestoneController extends WebServiceControler {
 		function create() {
-			echo 'create';
+			error_log('Milestone Created');
 		}
 	}
 ?>
