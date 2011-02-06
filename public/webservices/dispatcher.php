@@ -16,7 +16,7 @@
 
 	$service_name = '';
 	if (empty($service)) {
-		throw new Exception('Web-service is not set');
+		throw new Exception('Web-service is not defined');
 	} else {
 		$service_name = current($service);
 	}
@@ -25,9 +25,21 @@
 	$_SERVER['SCRIPT_NAME'] = $_SERVER['REDIRECT_URL'];
 	$_SERVER['PHP_SELF'] = $_SERVER['REDIRECT_URL'];
 	
-	require './lib/nusoap.php';
+	require './lib/nusoap.php';	
 
-	require realpath(dirname(__FILE__) . '/../../') . DIRECTORY_SEPARATOR . 'index.php';
+	require realpath(dirname(__FILE__).'/../../') . DIRECTORY_SEPARATOR . 'index.php';
+
+	try {
+		$service = new WebService($service_name);
+		$service->registerOperations();
+		$service->processRequest();
+	} catch (WebServiceFault $e) {
+		$service->fault($e->getFaultCode(), $e->getFaultString());
+	} catch (Exception $e) {
+		$service->fault('Server', $e->getMessage());
+	}
+
+	die();
 
 	$_POST['milestone'] = array(
 		'name' => 'Совсем новый проект',
@@ -83,9 +95,5 @@
 		echo "EPIC FAIL";
 	} // try
 	die();
-
-	$service = new WebService($service_name);
-	$service->registerOperations();
-	$service->processRequest();
 
 ?>

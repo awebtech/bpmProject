@@ -1,12 +1,12 @@
 <?php
 
 	/**
-	 * Description of objMilestone
+	 * Description of Milestone
 	 *
-	 * @author master
+	 * @author awebtech
 	 */
-	class objMilestone extends WebServiceObject {
-		static function DefineOperations() {
+	class Milestone extends WebServiceObject {
+		static function Init() {
 			self::$operations = array(
 				'Create' => array(
 					'in' => array(
