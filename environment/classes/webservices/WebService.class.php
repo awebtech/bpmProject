@@ -32,13 +32,11 @@
 			// nusoap will return WSDL if action is not specified
 			if ($wsClass::IsRequireAuth() && !empty($soap_action)) {
 				$soap_header = $headers_parser->requestHeader;
-				error_log('SH: '.print_r($soap_header, true));
 				unset($HTTP_RAW_POST_DATA);
 				unset($headers_parser);
 
 				if (!empty($soap_header['token'])) {
 					$credentials = unserialize(base64_decode($soap_header['token']));
-					error_log('creds: '.print_r($credentials, true));
 					if (!empty($credentials) && is_array($credentials)) {
 						foreach ($credentials as $k => $v) {
 							$_COOKIE[$k] = $v;

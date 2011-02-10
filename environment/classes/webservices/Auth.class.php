@@ -30,7 +30,7 @@
 			$user = Users::getByUsername($login, owner_company());
 			
 			if(!($user instanceof User) || !$user->isValidPassword($password)) {
-				throw new WebServiceFault('Client', 'Access denied');
+				throw new WebServiceFault('Client', 'Login failed');
 			}
 
 			$result = array();

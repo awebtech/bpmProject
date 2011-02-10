@@ -9,10 +9,10 @@
 	$client = new soapclient('http://localhost/bpmProject/public/webservices/Auth?wsdl', true);	
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
 	
-	/*$client = new soapclient('http://localhost/bpmProject/public/webservices/Milestone?wsdl', true);
+	$client = new soapclient('http://localhost/bpmProject/public/webservices/Milestone?wsdl', true);
 	$token = new soapval('token', 'xsd:string', $result);
 	$client->setHeaders(array($token));
-	$result = $client->call('Milestone.Create', array('name' => 'Новый проект'));*/
+	$result = $client->call('Milestone.Create', array('name' => 'Новый проект'));
 
 	if ($client->fault) {
 		echo '<h2>Fault</h2><pre>';
