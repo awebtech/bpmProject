@@ -5,8 +5,8 @@
 	 *
 	 * @author awebtech
 	 */
-	class Auth extends WebServiceObject {
-		static function Init() {
+	class Auth extends WebService {
+		static function init() {
 			self::$operations = array(
 				'Login' => array(
 					'in' => array(
@@ -18,17 +18,16 @@
 					),
 				),
 			);
-
-			self::$requireAuth = false;			
 		}
+	}
 
-
-		function Login($login, $password) {
+	class Login extends WebServiceOperation {
+		function execute($login, $password) {
 			$login = trim($login);
 			$password = trim($password);
 
 			$user = Users::getByUsername($login, owner_company());
-			
+
 			if(!($user instanceof User) || !$user->isValidPassword($password)) {
 				throw new WebServiceFault('Client', 'Login failed');
 			}

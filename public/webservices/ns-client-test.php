@@ -12,7 +12,25 @@
 	$client = new soapclient('http://localhost/bpmProject/public/webservices/Milestone?wsdl', true);
 	$token = new soapval('token', 'xsd:string', $result);
 	$client->setHeaders(array($token));
-	$result = $client->call('Milestone.Create', array('name' => 'Новый проект'));
+
+	$milestone['milestone'] = array(
+		'name' => 'Совсем новый проект',
+		'tags' => 'тэг1',
+		'description' => 'Описалово',
+		'assigned_to' => '1:1',
+		'send_notification' => 'checked',
+		'is_urgent' => 'checked',
+		'due_date_value' => '30/01/2011',
+	);
+
+	$milestone['ws_ids'] = 1;
+	$milestone['taskFormAssignedToCombo'] = 'Me';
+
+	$milestone['object_custom_properties'] = array(
+			1 => '30/01/2011',
+	);
+
+	$result = $client->call('Milestone.Create', array('milestone' => $milestone));
 
 	if ($client->fault) {
 		echo '<h2>Fault</h2><pre>';
@@ -30,11 +48,11 @@
 	}
 
 	echo '<h2>Request</h2>';
-	echo '<pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
+	echo '<pre>' . htmlspecialchars($client->request) . '</pre>';
 	echo '<h2>Response</h2>';
-	echo '<pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
+	echo '<pre>' . htmlspecialchars($client->response) . '</pre>';
 	// Display the debug messages
 	echo '<h2>Debug</h2>';
-	echo '<pre>' . htmlspecialchars($client->debug_str, ENT_QUOTES) . '</pre>';
+	echo '<pre>' . $client->debug_str . '</pre>';
 
 ?>

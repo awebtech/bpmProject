@@ -20,8 +20,7 @@
 
 		function getFaultString() {
 			return $this->faultString;
-		}
-
-		
+		}		
 	}
+
 ?>

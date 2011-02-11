@@ -5,15 +5,18 @@
 	 *
 	 * @author awebtech
 	 */
-	class Milestone extends WebServiceObject {
-		static function Init() {
+	class Milestone extends WebService {
+		static function init() {
 			self::$operations = array(
 				'Create' => array(
 					'in' => array(
-						'name' => 'xsd:string'
+						'milestone' => 'tns:Milestone'
 					),
 					'out' => array(
 						'return' => 'xsd:string'
+					),
+					'complexTypes' => array(
+						'MilestoneGeneric', 'CustomProperties', 'Milestone',
 					),
 				),
 				'Delete' => array(
@@ -26,56 +29,11 @@
 				),
 			);
 		}
-
-		function Create($name) {
-
-			array(
-				'name' => array(
-					'name' => 'name',
-					'type' => 'xsd:string',
-				),
-				'tags' => array(
-					'name' => 'tags',
-					'type' => 'xsd:string',
-				),
-				'description' => array(
-					'name' => 'description',
-					'type' => 'xsd:string',
-				),
-				'assigned_to' => array(
-					'name' => 'assigned_to',
-					'type' => 'xsd:string',
-				),
-				'send_notification' => array(
-					'name' => 'send_notification',
-					'type' => 'xsd:string',
-				),
-				'is_urgent' => array(
-					'name' => 'is_urgent',
-					'type' => 'xsd:string',
-				),
-				'due_date_value' => array(
-					'name' => 'due_date_value',
-					'type' => 'xsd:string',
-				),
-			);
-
-			$_POST['milestone'] = array(
-				'name' => 'Совсем новый проект',
-				'tags' => 'тэг1',
-				'description' => 'Описалово',
-				'assigned_to' => '1:1',
-				'send_notification' => 'checked',
-				'is_urgent' => 'checked',
-				'due_date_value' => '30/01/2011',
-			);
-
-			$_POST['ws_ids'] = 1;
-			$_POST['taskFormAssignedToCombo'] = 'Me';
-
-			$_POST['object_custom_properties'] = array(
-					1 => '30/01/2011',
-			);
+	}
+	
+	class Create extends WebServiceOperation {
+		function execute($milestone) {
+			return print_r($milestone, true);
 
 			if (logged_user()->isGuest()) {
 				throw new WebServiceFault('Client', lang('no access permissions'));
@@ -126,9 +84,9 @@
 				throw $e;
 			}
 		}
+	}
 
-		function Delete($name) {
-			return "Milestone $name has been deleted";
-		}
+	function Delete($name) {
+		return "Milestone $name has been deleted";
 	}
 ?>

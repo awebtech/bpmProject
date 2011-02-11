@@ -4010,7 +4010,7 @@ class nusoap_server extends nusoap_base {
 		}
 
 		// does method exist?
-		if ($class == '') {
+		/*if ($class == '') {
 			if (!function_exists($this->methodname)) {
 				$this->debug("in invoke_method, function '$this->methodname' not found!");
 				$this->result = 'fault: method not found';
@@ -4025,7 +4025,7 @@ class nusoap_server extends nusoap_base {
 				$this->fault('SOAP-ENV:Client',"method '$this->methodname'/'$method_to_compare'('$orig_methodname') not defined in service/'$class'('$try_class' '$delim')");
 				return;
 			}
-		}
+		}*/
 
 		// evaluate message, getting back parameters
 		// verify that request parameters match the method's signature
@@ -4083,6 +4083,9 @@ class nusoap_server extends nusoap_base {
 				$instance = new $class ();
 				$call_arg = array(&$instance, $method);
 			}
+
+			$this->methodparams['requestHeader'] = $this->requestHeader;
+
 			if (is_array($this->methodparams)) {
 				$this->methodreturn = call_user_func_array($call_arg, array_values($this->methodparams));
 			} else {
@@ -6395,6 +6398,7 @@ class wsdl extends nusoap_base {
 
 		$typens = isset($this->namespaces['types']) ? $this->namespaces['types'] : $this->namespaces['tns'];
 		$this->schemas[$typens][0]->addComplexType($name,$typeClass,$phpType,$compositor,$restrictionBase,$elements,$attrs,$arrayType);
+		error_log('added to ns = '.$typens.' ct = '.$name);
 	}
 
 	/**
