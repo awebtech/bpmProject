@@ -7,7 +7,7 @@
 	 */
 	abstract class WebServiceOperationWithAuth extends WebServiceOperation {
 		function  __construct($args) {
-			$soap_header = $args['requestHeader'];
+			$soap_header = $args[1];
 
 			if (!empty($soap_header['token'])) {
 				$credentials = unserialize(base64_decode($soap_header['token']));

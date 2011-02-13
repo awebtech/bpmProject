@@ -175,8 +175,7 @@ class MilestoneController extends ApplicationController {
 	 * @return null
 	 */
 	function add() {
-		error_log(print_r($_POST, true));
-		if (1 || logged_user()->isGuest()) {
+		if (logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
 			return;
@@ -263,11 +262,12 @@ class MilestoneController extends ApplicationController {
 				}
 				ajx_current("back");
 
+				self::$mainObjectId = $milestone->getId();
 			} catch(Exception $e) {
 				DB::rollback();
 				flash_error($e->getMessage());
 				ajx_current("empty");
-			} // try
+			} // try			
 		} // if
 	} // add
 

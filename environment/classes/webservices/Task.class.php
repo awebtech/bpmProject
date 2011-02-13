@@ -1,41 +1,43 @@
 <?php
 
 	/**
-	 * Description of Milestone
+	 * Description of Task
 	 *
 	 * @author awebtech
 	 */
-	class Milestone extends WebService {
+	class Task extends WebService {
 		static function init() {
 			self::$operations = array(
 				'Create' => array(
 					'in' => array(
-						'milestone' => 'tns:Milestone'
+						'task' => 'tns:Task'
 					),
 					'out' => array(
 						'return' => 'xsd:int'
 					),
 					'complexTypes' => array(
-						'MilestoneGeneric', 'CustomProperties', 'Milestone',
+						'TaskGeneric', 'CustomProperties', 'Task',
 					),
 				),
 			);
 		}
 	}
 	
+	// TODO: custom properties indexes are lost during requests, it is necesssary to convert them into array of structs key=>value
+
 	class Create extends WebServiceOperationWithAuth {
 		function  __construct($args) {
 			parent::__construct($args);
 
 			Env::useHelper('permissions');
-			Hook::register("milestone");
+			Hook::register("task");
 		}
 
-		function execute($milestone) {			
-			$_GET['c'] = 'milestone';
-			$_GET['a'] = 'add';
+		function execute($task) {
+			$_GET['c'] = 'task';
+			$_GET['a'] = 'add_task';
 
-			$_POST = $milestone;
+			$_POST = $task;
 
 			self::executeAction(request_controller(), request_action());
 
@@ -44,13 +46,13 @@
 			if (!empty($error)) {
 				throw new WebServiceFault('Client', $error);
 			}
-
-			return MilestoneController::getMainObjectId();
+			
+			return TaskController::getMainObjectId();
 		}
 	}
 
-	function milestone_object_validate($object, &$errors) {
-		if ($object instanceof ProjectMilestone && !empty($errors)) {
+	function task_object_validate($object, &$errors) {
+		if ($object instanceof ProjectTask && !empty($errors)) {
 			throw new WebServiceFault('Client', implode("\n", $errors));
 		}
 	}

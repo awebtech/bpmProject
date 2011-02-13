@@ -10,6 +10,11 @@
  */
 abstract class PageController extends Controller {
 
+	/*
+	 * Id of the main object (milestone, task etc). Used for example to get the id of the just created object.
+	 */
+	protected static $mainObjectId;
+
 	/**
 	 * Template name. If it is empty this controller will use action name.php
 	 *
@@ -333,6 +338,12 @@ abstract class PageController extends Controller {
 		return $path;
 	} // getLayoutPath
 
+	/*
+	 * Returns id of the main object.
+	 */
+	function getMainObjectId() {
+		return self::$mainObjectId;
+	}
 } // PageController
 
 ?>

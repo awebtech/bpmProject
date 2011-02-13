@@ -32,6 +32,7 @@
 		}		
 
 		function __call($name, $arguments) {
+			//error_log(print_r($arguments, true));
 			$operation = new $name($arguments);
 			return call_user_func_array(array($operation, 'execute'), $arguments);
 		}

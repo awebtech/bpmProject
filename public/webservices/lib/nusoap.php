@@ -6398,7 +6398,6 @@ class wsdl extends nusoap_base {
 
 		$typens = isset($this->namespaces['types']) ? $this->namespaces['types'] : $this->namespaces['tns'];
 		$this->schemas[$typens][0]->addComplexType($name,$typeClass,$phpType,$compositor,$restrictionBase,$elements,$attrs,$arrayType);
-		error_log('added to ns = '.$typens.' ct = '.$name);
 	}
 
 	/**

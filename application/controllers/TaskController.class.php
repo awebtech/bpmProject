@@ -1004,7 +1004,7 @@ class TaskController extends ApplicationController {
 				} else {
 					ajx_current("reload");
 				}
-
+				self::$mainObjectId = $task->getId();
 			} catch(Exception $e) {
 				DB::rollback();
 				flash_error($e->getMessage());
