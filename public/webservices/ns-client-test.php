@@ -4,15 +4,24 @@
 	
 	//$a = base64_encode(serialize($a));
 
+	//error_reporting(E_ALL);
+	ini_set('display_errors', 'On');
+
 	require './lib/nusoap.php';
 	require '../../environment/classes/webservices/WebServiceComplexType.class.php';
 
-	$client = new soapclient('http://localhost/bpmProject/public/webservices/Auth?wsdl', true);	
+	try {
+
+	$client = new nusoap_client('http://bpmproject/public/webservices/Auth?wsdl', true);
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
+	} catch (Exception $e) {
+		print_r($e);
+		exit;
+	}
 
 	switch ($_GET['action']) {
 		case 'task':
-			$client = new soapclient('http://localhost/bpmProject/public/webservices/Task?wsdl', true);
+			$client = new nusoap_client('http://bpmproject/public/webservices/Task?wsdl', true);
 			$token = new soapval('token', 'xsd:string', $result);
 			$client->setHeaders(array($token));
 
@@ -41,7 +50,7 @@
 			$result = $client->call('Task.Create', array('task' => $task));
 			break;
 		case 'milestone':
-			$client = new soapclient('http://localhost/bpmProject/public/webservices/Milestone?wsdl', true);
+			$client = new nusoap_client('http://bpmproject/public/webservices/Milestone?wsdl', true);
 			$token = new soapval('token', 'xsd:string', $result);
 			$client->setHeaders(array($token));
 
