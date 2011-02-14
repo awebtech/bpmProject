@@ -16,7 +16,7 @@
 						'return' => 'xsd:int'
 					),
 					'complexTypes' => array(
-						'MilestoneGeneric', 'CustomProperties', 'Milestone',
+						'KeyValue', 'MilestoneGeneric', 'CustomProperties', 'Milestone',
 					),
 				),
 			);
@@ -36,6 +36,10 @@
 			$_GET['a'] = 'add';
 
 			$_POST = $milestone;
+
+			if (!empty($milestone['object_custom_properties'])) {
+				$milestone['object_custom_properties'] = WebServiceComplexType::ToAssocArray($milestone['object_custom_properties']);
+			}
 
 			self::ExecuteAction(request_controller(), request_action());
 
