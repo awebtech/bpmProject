@@ -5,24 +5,17 @@
 	//$a = base64_encode(serialize($a));
 
 	//error_reporting(E_ALL);
+	//ini_set('display_errors', 'On');
 
 	//print_r($_SERVER);
 
 	$ws_url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/';
 
-	ini_set('display_errors', 'On');
-
 	require './lib/nusoap.php';
 	require '../../environment/classes/webservices/WebServiceComplexType.class.php';
 
-	try {
-
 	$client = new nusoap_client($ws_url.'Auth?wsdl', true);
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
-	} catch (Exception $e) {
-		print_r($e);
-		exit;
-	}
 
 	switch ($_GET['action']) {
 		case 'task':
@@ -33,7 +26,7 @@
 			$task['task'] = array(
 				'title' => 'Новая поставка 21',
 				'tags' => 'тэг1',
-				'milestone_id' => 8,
+				'milestone_id' => 7,
 				'priority' => 300,
 				'object_subtype' => 2,
 				'text' => 'Описалово',
@@ -46,11 +39,11 @@
 			$task['ws_ids'] = 1;
 			$task['taskFormAssignedToCombo'] = 'Me';
 
-			$task['object_custom_properties'] = array(
+			/*$task['object_custom_properties'] = array(
 					2 => 'checked',
 			);
 
-			$task['object_custom_properties'] = WebServiceComplexType::ToKeyValue($task['object_custom_properties']);
+			$task['object_custom_properties'] = WebServiceComplexType::ToKeyValue($task['object_custom_properties']);*/
 
 			$result = $client->call('Task.Create', array('task' => $task));
 			break;
