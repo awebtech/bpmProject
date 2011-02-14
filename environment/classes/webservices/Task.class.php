@@ -16,7 +16,7 @@
 						'return' => 'xsd:int'
 					),
 					'complexTypes' => array(
-						'TaskGeneric', 'CustomProperties', 'Task',
+						'KeyValue', 'TaskGeneric', 'CustomProperties', 'Task',
 					),
 				),
 			);
@@ -36,6 +36,10 @@
 		function execute($task) {
 			$_GET['c'] = 'task';
 			$_GET['a'] = 'add_task';
+
+			if (!empty($task['object_custom_properties'])) {
+				$task['object_custom_properties'] = WebServiceComplexType::ToAssocArray($task['object_custom_properties']);
+			}
 
 			$_POST = $task;
 

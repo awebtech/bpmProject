@@ -17,7 +17,7 @@
 		 * @param string $action
 		 * @return null
 		 */
-		static function executeAction($controller_name, $action) {
+		static function ExecuteAction($controller_name, $action) {
 			$max_users = config_option('max_users');
 			if ($max_users && Users::count() > $max_users) {
 			   echo lang("error").": ".lang("maximum number of users exceeded error");

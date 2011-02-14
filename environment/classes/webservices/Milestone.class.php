@@ -37,7 +37,7 @@
 
 			$_POST = $milestone;
 
-			self::executeAction(request_controller(), request_action());
+			self::ExecuteAction(request_controller(), request_action());
 
 			$error = flash_get('error');
 

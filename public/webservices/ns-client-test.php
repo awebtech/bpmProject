@@ -5,6 +5,7 @@
 	//$a = base64_encode(serialize($a));
 
 	require './lib/nusoap.php';
+	require '../../environment/classes/webservices/WebServiceComplexType.class.php';
 
 	$client = new soapclient('http://localhost/bpmProject/public/webservices/Auth?wsdl', true);	
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
@@ -18,22 +19,24 @@
 			$task['task'] = array(
 				'title' => 'Новая поставка 21',
 				'tags' => 'тэг1',
-				'milestone_id' => 22,
-				'priority' => 200,
-				'object_subtype' => 1,
+				'milestone_id' => 8,
+				'priority' => 300,
+				'object_subtype' => 2,
 				'text' => 'Описалово',
 				'assigned_to' => '1:1',
 				'send_notification' => 'checked',
 			);
 
-			$task['task_start_date'] = '2011/02/18';
-			$task['task_due_date'] = '2011/02/28';
+			$task['task_start_date'] = '2011-02-18';
+			$task['task_due_date'] = '2011-02-28';
 			$task['ws_ids'] = 1;
 			$task['taskFormAssignedToCombo'] = 'Me';
 
 			$task['object_custom_properties'] = array(
 					2 => 'checked',
 			);
+
+			$task['object_custom_properties'] = WebServiceComplexType::ToKeyValue($task['object_custom_properties']);
 
 			$result = $client->call('Task.Create', array('task' => $task));
 			break;
@@ -49,14 +52,14 @@
 				'assigned_to' => '1:1',
 				'send_notification' => 'checked',
 				'is_urgent' => 'checked',
-				'due_date_value' => '2011/01/13',
+				'due_date_value' => '2011-01-13',
 			);
 
 			$milestone['ws_ids'] = 1;
 			$milestone['taskFormAssignedToCombo'] = 'Me';
 
 			$milestone['object_custom_properties'] = array(
-					1 => '2011/01/01',
+					1 => '2011-01-01',
 			);
 
 			$result = $client->call('Milestone.Create', array('milestone' => $milestone));

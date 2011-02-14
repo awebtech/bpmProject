@@ -17,10 +17,27 @@
 				array(
 					array(
 						'ref' => 'SOAP-ENC:arrayType',
-						'wsdl:arrayType' => 'xsd:string[]'
+						'wsdl:arrayType' => 'tns:KeyValue[]'
 					),
 				),
 				'xsd:string'
+			),
+			'KeyValue' => array(
+				'KeyValue',
+				'complexType',
+				'struct',
+				'all',
+				'',
+				array(
+					'key' => array(
+						'name' => 'key',
+						'type' => 'xsd:int',
+					),
+					'value' => array(
+						'name' => 'value',
+						'type' => 'xsd:string',
+					),
+				)
 			),
 			'Milestone' => array(
 				'Milestone',
@@ -166,6 +183,37 @@
 			}
 
 			return self::$complexTypes[$type_name];
+		}
+
+		static function ToKeyValue($array) {
+			$res = array();
+
+			if (empty($array)) {
+				return $res;
+			}
+
+			$ind = 0;
+			foreach ($array as $key => $value) {
+				$res[$ind]['key'] = $key;
+				$res[$ind]['value'] = $value;
+				++$ind;
+			}
+
+			return $res;
+		}
+
+		static function ToAssocArray($array) {
+			$res = array();
+
+			if (empty($array)) {
+				return $res;
+			}
+
+			foreach ($array as $element) {
+				$res[$element['key']] = $element['value'];
+			}
+
+			return $res;
 		}
 	}
 
