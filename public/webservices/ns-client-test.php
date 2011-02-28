@@ -18,10 +18,8 @@
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
 
 	switch ($_GET['action']) {
-		case 'task':
+		case 'Task.Create':
 			$client = new nusoap_client($ws_url.'Task?wsdl', true);
-			$token = new soapval('token', 'xsd:string', $result);
-			$client->setHeaders(array($token));
 
 			$task['task'] = array(
 				'title' => 'Новая поставка 21',
@@ -39,18 +37,51 @@
 			$task['ws_ids'] = 1;
 			$task['taskFormAssignedToCombo'] = 'Me';
 
+			$task['token'] = $result;
+
 			/*$task['object_custom_properties'] = array(
 					2 => 'checked',
 			);
 
 			$task['object_custom_properties'] = WebServiceComplexType::ToKeyValue($task['object_custom_properties']);*/
 
-			$result = $client->call('Task.Create', array('task' => $task));
+			$result = $client->call($_GET['action'], array('task' => $task));
 			break;
-		case 'milestone':
+		case 'Task.Update':
+			$client = new nusoap_client($ws_url.'Task?wsdl', true);
+
+			$task['id'] = 2;
+
+			$task['task'] = array(
+				'title' => 'Новая поставка 21',
+				'tags' => 'тэг1',
+				'milestone_id' => 7,
+				'priority' => 300,
+				'object_subtype' => 2,
+				'text' => 'Описалово',
+				'assigned_to' => '1:1',
+				'send_notification' => 'checked',
+			);
+
+			$task['task_start_date'] = '2011-02-18';
+			$task['task_due_date'] = '2011-02-28';
+			$task['ws_ids'] = 1;
+			$task['taskFormAssignedToCombo'] = 'Me';
+
+			$task['genid'] = '';//og_1298304592_886994';
+
+			$task['token'] = $result;
+
+			/*$task['object_custom_properties'] = array(
+					2 => 'checked',
+			);
+
+			$task['object_custom_properties'] = WebServiceComplexType::ToKeyValue($task['object_custom_properties']);*/
+
+			$result = $client->call($_GET['action'], array('task' => $task));
+			break;
+		case 'Milestone.Create':
 			$client = new nusoap_client($ws_url.'Milestone?wsdl', true);
-			$token = new soapval('token', 'xsd:string', $result);
-			$client->setHeaders(array($token));
 
 			$milestone['milestone'] = array(
 				'name' => 'miiiiiiiilestooone',
@@ -66,12 +97,45 @@
 			$milestone['taskFormAssignedToCombo'] = 'Me';
 
 			$milestone['object_custom_properties'] = array(
-					1 => '2011-01-01',
+					1 => '2011-01-01',					
 			);
 
 			$milestone['object_custom_properties'] = WebServiceComplexType::ToKeyValue($milestone['object_custom_properties']);
 
-			$result = $client->call('Milestone.Create', array('milestone' => $milestone));
+			$milestone['token'] = $result;
+
+			$result = $client->call($_GET['action'], array('milestone' => $milestone));
+		break;
+		case 'Milestone.Update':
+			$client = new nusoap_client($ws_url.'Milestone?wsdl', true);
+
+			$milestone['id'] = 11;
+
+			$milestone['milestone'] = array(
+				'name' => 'Измененный майлстоун',
+				'tags' => 'тэг23',
+				'description' => 'Описалово',
+				'assigned_to' => '1:1',
+				'send_notification' => 'checked',
+				'is_urgent' => 'checked',
+				'due_date_value' => '2011-01-13',
+			);
+
+			$milestone['ws_ids'] = 1;
+			$milestone['taskFormAssignedToCombo'] = 'Me';
+
+			$milestone['object_custom_properties'] = array(
+					1 => '2013-02-02',
+					3 => 10,
+			);
+
+			$milestone['object_custom_properties'] = WebServiceComplexType::ToKeyValue($milestone['object_custom_properties']);
+
+			$milestone['updatedon'] = 1297696651;
+
+			$milestone['token'] = $result;
+
+			$result = $client->call($_GET['action'], array('milestone' => $milestone));
 		break;
 	}
 

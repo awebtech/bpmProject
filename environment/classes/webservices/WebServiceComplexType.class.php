@@ -50,6 +50,10 @@
 						'name' => 'milestone',
 						'type' => 'tns:MilestoneGeneric',
 					),
+					'id' => array(
+						'name' => 'id',
+						'type' => 'xsd:int',
+					),
 					'ws_ids' => array(
 						'name' => 'ws_ids',
 						'type' => 'xsd:string',
@@ -61,6 +65,14 @@
 					'object_custom_properties' => array(
 						'name' => 'object_custom_properties',
 						'type' => 'tns:CustomProperties',
+					),
+					'updatedon' => array(
+						'name' => 'updatedon',
+						'type' => 'xsd:string',
+					),
+					'token' => array(
+						'name' => 'token',
+						'type' => 'xsd:string',
 					),
 				)
 			),
@@ -99,6 +111,10 @@
 						'name' => 'due_date_value',
 						'type' => 'xsd:string',
 					),
+					'is_template' => array(
+						'name' => 'is_template',
+						'type' => 'xsd:boolean',
+					),
 				)
 			),
 			'Task' => array(
@@ -112,12 +128,20 @@
 						'name' => 'task',
 						'type' => 'tns:TaskGeneric',
 					),
+					'id' => array(
+						'name' => 'id',
+						'type' => 'xsd:int',
+					),
 					'task_start_date' => array(
 						'name' => 'task_start_date',
 						'type' => 'xsd:string',
 					),
 					'task_due_date' => array(
 						'name' => 'task_due_date',
+						'type' => 'xsd:string',
+					),
+					'genid' => array(
+						'name' => 'genid',
 						'type' => 'xsd:string',
 					),
 					'ws_ids' => array(
@@ -131,6 +155,14 @@
 					'object_custom_properties' => array(
 						'name' => 'object_custom_properties',
 						'type' => 'tns:CustomProperties',
+					),
+					'updatedon' => array(
+						'name' => 'updatedon',
+						'type' => 'xsd:string',
+					),
+					'token' => array(
+						'name' => 'token',
+						'type' => 'xsd:string',
 					),
 				)
 			),

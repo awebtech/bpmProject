@@ -1075,6 +1075,8 @@ class TaskController extends ApplicationController {
 	 * @return null
 	 */
 	function edit_task() {
+		error_log(print_r($_POST, true));
+		error_log(print_r($_GET, true));
 		if (logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");

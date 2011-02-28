@@ -4084,8 +4084,6 @@ class nusoap_server extends nusoap_base {
 				$call_arg = array(&$instance, $method);
 			}
 
-			$this->methodparams['requestHeader'] = $this->requestHeader;
-
 			if (is_array($this->methodparams)) {
 				$this->methodreturn = call_user_func_array($call_arg, array_values($this->methodparams));
 			} else {
