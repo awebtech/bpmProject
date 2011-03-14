@@ -10,24 +10,26 @@
 			self::$operations = array(
 				'Create' => array(
 					'in' => array(
-						'milestone' => 'tns:Milestone'
+						'milestone' => 'tns:Milestone',
+						'token' => 'xsd:string',
 					),
 					'out' => array(
-						'return' => 'xsd:int'
+						'return' => 'xsd:int',
 					),
 					'complexTypes' => array(
-						'KeyValue', 'MilestoneGeneric', 'CustomProperties', 'Milestone',
+						'Milestone',
 					),
 				),
 				'Update' => array(
 					'in' => array(
-						'milestone' => 'tns:Milestone'
+						'milestone' => 'tns:Milestone',
+						'token' => 'xsd:string',
 					),
 					'out' => array(
 						'return' => 'xsd:boolean'
 					),
 					'complexTypes' => array(
-						'KeyValue', 'MilestoneGeneric', 'CustomProperties', 'Milestone',
+						'Milestone',
 					),
 				),
 			);

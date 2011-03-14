@@ -174,9 +174,8 @@ class MilestoneController extends ApplicationController {
 	 * @param void
 	 * @return null
 	 */
-	function add() {
-		error_log(print_r($_POST, true));
-		if (1 || logged_user()->isGuest()) {
+	function add() {		
+		if (logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
 			return;
@@ -280,7 +279,8 @@ class MilestoneController extends ApplicationController {
 	 * @return null
 	 */
 	function edit() {
-		if (logged_user()->isGuest()) {
+		error_log(print_r($_POST, true));
+		if (1 || logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
 			return;

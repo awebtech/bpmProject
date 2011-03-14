@@ -14,7 +14,8 @@
 	require './lib/nusoap.php';
 	require '../../environment/classes/webservices/WebServiceComplexType.class.php';
 
-	$client = new nusoap_client($ws_url.'Auth?wsdl', true);
+	$client = new nusoap_client($ws_url.'Auth?wsdl', true);	
+	
 	$result = $client->call('Auth.Login', array('login' => 'root', 'password' => 'root'));
 
 	switch ($_GET['action']) {
@@ -109,12 +110,12 @@
 		case 'Milestone.Update':
 			$client = new nusoap_client($ws_url.'Milestone?wsdl', true);
 
-			$milestone['id'] = 11;
+			$milestone['id'] = 1;
 
 			$milestone['milestone'] = array(
-				'name' => 'Измененный майлстоун',
+				'name1' => 'Измененный майлстоун',
 				'tags' => 'тэг23',
-				'description' => 'Описалово',
+				'description' => 'Описалово123',
 				'assigned_to' => '1:1',
 				'send_notification' => 'checked',
 				'is_urgent' => 'checked',

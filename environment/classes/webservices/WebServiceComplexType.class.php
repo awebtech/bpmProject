@@ -46,43 +46,10 @@
 				'all',
 				'',
 				array(
-					'milestone' => array(
-						'name' => 'milestone',
-						'type' => 'tns:MilestoneGeneric',
-					),
 					'id' => array(
 						'name' => 'id',
 						'type' => 'xsd:int',
 					),
-					'ws_ids' => array(
-						'name' => 'ws_ids',
-						'type' => 'xsd:string',
-					),
-					'taskFormAssignedToCombo' => array(
-						'name' => 'taskFormAssignedToCombo',
-						'type' => 'xsd:string',
-					),
-					'object_custom_properties' => array(
-						'name' => 'object_custom_properties',
-						'type' => 'tns:CustomProperties',
-					),
-					'updatedon' => array(
-						'name' => 'updatedon',
-						'type' => 'xsd:string',
-					),
-					'token' => array(
-						'name' => 'token',
-						'type' => 'xsd:string',
-					),
-				)
-			),
-			'MilestoneGeneric' => array(
-				'MilestoneGeneric',
-				'complexType',
-				'struct',
-				'all',
-				'',
-				array(
 					'name' => array(
 						'name' => 'name',
 						'type' => 'xsd:string',
@@ -107,16 +74,36 @@
 						'name' => 'is_urgent',
 						'type' => 'xsd:string',
 					),
+					'start_date_value' => array(
+						'name' => 'start_date_value',
+						'type' => 'xsd:string',
+					),
 					'due_date_value' => array(
 						'name' => 'due_date_value',
+						'type' => 'xsd:string',
+					),
+					'critical_date_value' => array(
+						'name' => 'critical_date_value',
 						'type' => 'xsd:string',
 					),
 					'is_template' => array(
 						'name' => 'is_template',
 						'type' => 'xsd:boolean',
 					),
+					'ws_ids' => array(
+						'name' => 'ws_ids',
+						'type' => 'xsd:string',
+					),
+					'taskFormAssignedToCombo' => array(
+						'name' => 'taskFormAssignedToCombo',
+						'type' => 'xsd:string',
+					),					
+					'updatedon' => array(
+						'name' => 'updatedon',
+						'type' => 'xsd:string',
+					),					
 				)
-			),
+			),			
 			'Task' => array(
 				'Task',
 				'complexType',
