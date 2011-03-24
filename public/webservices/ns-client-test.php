@@ -84,6 +84,38 @@
 		case 'Milestone.Create':
 			$client = new nusoap_client($ws_url.'Milestone?wsdl', true);
 
+			$milestone = array();
+			$milestone['id'] = 0;
+			$milestone['milestone'] = array(
+				'name' => '',
+				'tags' => '',
+				'description' => '',
+				'assigned_to' => '',
+				'send_notification' => '',
+				'is_urgent' => '',
+				'due_date_value' => '',
+				'is_template' => '',
+			);
+			$milestone['ws_ids'] = 0;
+			$milestone['taskFormAssignedToCombo'] = '';
+			$milestone['object_custom_properties'] = array(
+					'start_date_value' => '',
+					'critical_date_value' => '',
+			);
+			$milestone['updatedon'] = '';
+
+			// Изначально milestone.object_custom_properties.1
+			// Переводим в milestone.object_custom_properties.Дата начала, при помощи внутренних функций FO
+			// Переводим в milestone.object_custom_properties.start_date_value, при помощи таблицы соответствий:
+			// Prefix							|	mapping1		|	mapping2			|	hash1	|	hash2
+			// milestone.object_custom_properties		Дата начала		start_date_value		dskadgfa		dskfjsdjk
+
+			// milestone.object_custom_properties 
+			// Дата начала
+			// start_date_value
+			//
+			// milestone.object_custom_properties.start_date_value = Дата начала
+
 			$milestone['milestone'] = array(
 				'name' => 'miiiiiiiilestooone',
 				'tags' => 'тэг1',
