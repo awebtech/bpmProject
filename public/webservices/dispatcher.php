@@ -27,7 +27,6 @@
 		$service::register($server);
 
 		$HTTP_RAW_POST_DATA = file_get_contents("php://input");
-		error_log(print_r($HTTP_RAW_POST_DATA, true));
 		$server->service($HTTP_RAW_POST_DATA);
 
 		exit;

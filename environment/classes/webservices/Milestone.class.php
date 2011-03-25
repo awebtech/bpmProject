@@ -46,7 +46,7 @@
 
 		function execute($milestone) {			
 			$_GET['c'] = 'milestone';
-			$_GET['a'] = 'add';			
+			$_GET['a'] = 'do_add';
 
 			if (!empty($milestone['object_custom_properties'])) {
 				$milestone['object_custom_properties'] = WebServiceComplexType::ToAssocArray($milestone['object_custom_properties']);

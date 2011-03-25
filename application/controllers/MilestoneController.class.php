@@ -168,7 +168,7 @@ class MilestoneController extends ApplicationController {
 	} // view
 
 	/**
-	 * Show and process add milestone form
+	 * Show and sends via web service add milestone form
 	 *
 	 * @access public
 	 * @param void
@@ -189,17 +189,50 @@ class MilestoneController extends ApplicationController {
 			return;
 		} // if
 
-		$milestone_data = array_var($_POST, 'milestone');
-		$now = DateTimeValueLib::now();
-		$due_date = DateTimeValueLib::make(0, 0, 0, array_var($_GET, 'due_month', $now->getMonth()), array_var($_GET, 'due_day', $now->getDay()), array_var($_GET, 'due_year', $now->getYear()));
-		if(!is_array($milestone_data)) {
+		
+		if (is_array(array_var($_POST, 'milestone'))) {
+			// Send via WS
+		} else {
+			$now = DateTimeValueLib::now();
+			$due_date = DateTimeValueLib::make(0, 0, 0, array_var($_GET, 'due_month', $now->getMonth()), array_var($_GET, 'due_day', $now->getDay()), array_var($_GET, 'due_year', $now->getYear()));
+			
 			$milestone_data = array(
 				'due_date' => $due_date,
 				'name' => array_var($_GET, 'name', ''),
 				'assigned_to' => array_var($_GET, 'assigned_to', '0:0'),
 				'is_template' => array_var($_GET, "is_template", false)
 			); // array
+
+			$milestone = new ProjectMilestone();
+			tpl_assign('milestone_data', $milestone_data);
+			tpl_assign('milestone', $milestone);
+		}
+	}
+
+	/**
+	 * Processes add milestone form
+	 *
+	 * @access public
+	 * @param void
+	 * @return null
+	 */
+	function do_add() {
+		if (0 || logged_user()->isGuest()) {
+			flash_error(lang('no access permissions'));
+			ajx_current("empty");
+			return;
+		}
+		$this->setTemplate('add_milestone');
+
+		if(!ProjectMilestone::canAdd(logged_user(), active_or_personal_project())) {
+			flash_error(lang('no access permissions'));
+			ajx_current("empty");
+			return;
 		} // if
+		
+
+		$milestone_data = array_var($_POST, 'milestone');
+		
 		$milestone = new ProjectMilestone();
 		tpl_assign('milestone_data', $milestone_data);
 		tpl_assign('milestone', $milestone);

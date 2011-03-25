@@ -1,23 +1,35 @@
 <?php
+
 	/**
 	 * Description of Mapping
 	 *
-	 * @author awebtech
+	 * @author akornida
 	 */
+
 	class Mapping {
-	    private static $instance = null;
+		static function Get($prefix, $str, $forward = true) {
+			$prefix = strtolower($prefix);
+			$hash = sha1($prefix.$str);
 
-	    function getInstance() {
-		    if (!isset(self::$instance)) {
-			    self::$instance = new Mapping();
-		    }
+			$name = $forward ? 'mapping2' : 'mapping1';
 
-		    return self::$instance;
-	    }
+			$sql = "
+				SELECT
+					$name
+				FROM
+					".TABLE_PREFIX."mapping
+				WHERE
+					".($forward ? 'hash1' : 'hash2')." = '$hash'
+			";
 
-	    function Map($value, $forward = true) {
-		    
-	    }
+			$mapping = DB::executeOne($sql);
+
+			if (empty($mapping)) {
+				return false;
+			}
+
+			return $mapping['name'];
+		}
 	}
 
 ?>
