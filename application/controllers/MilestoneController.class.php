@@ -191,7 +191,25 @@ class MilestoneController extends ApplicationController {
 
 		
 		if (is_array(array_var($_POST, 'milestone'))) {
-			// Send via WS
+			try {
+				$object = new MilestoneWso('ProjectMilestone', $_POST['milestone']);
+				$client = new WebServiceClient($wsdl_url);
+				$milestone_id = $client->call($operation, $object->createWsoState()); // Create new milestone via BPMS
+
+				$milestone = ProjectMilestones::findById($milestone_id);
+			} catch (Exception $e) {
+				flash_error($e->getMessage());
+				ajx_current("empty");
+				return;
+			}
+
+			if ($milestone->getIsTemplate()) {
+				flash_success(lang('success add template', $milestone->getName()));
+			} else {
+				flash_success(lang('success add milestone', $milestone->getName()));
+			}
+			ajx_current("back");
+			return;
 		} else {
 			$now = DateTimeValueLib::now();
 			$due_date = DateTimeValueLib::make(0, 0, 0, array_var($_GET, 'due_month', $now->getMonth()), array_var($_GET, 'due_day', $now->getDay()), array_var($_GET, 'due_year', $now->getYear()));
@@ -217,7 +235,7 @@ class MilestoneController extends ApplicationController {
 	 * @return null
 	 */
 	function do_add() {
-		if (0 || logged_user()->isGuest()) {
+		if (logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
 			return;
@@ -230,7 +248,6 @@ class MilestoneController extends ApplicationController {
 			return;
 		} // if
 		
-
 		$milestone_data = array_var($_POST, 'milestone');
 		
 		$milestone = new ProjectMilestone();
@@ -287,14 +304,7 @@ class MilestoneController extends ApplicationController {
 					} // if
 				} catch(Exception $e) {
 
-				} // try
-
-				if ($milestone->getIsTemplate()) {
-					flash_success(lang('success add template', $milestone->getName()));
-				} else {
-					flash_success(lang('success add milestone', $milestone->getName()));
-				}
-				ajx_current("back");
+				} // try				
 
 				self::$mainObjectId = $milestone->getId();
 			} catch(Exception $e) {

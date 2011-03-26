@@ -41,7 +41,7 @@
 			parent::__construct($args);
 
 			Env::useHelper('permissions');
-			Hook::register("milestone");
+			Hook::register('milestone');
 		}
 
 		function execute($milestone) {			
@@ -71,7 +71,7 @@
 			parent::__construct($args);
 
 			Env::useHelper('permissions');
-			Hook::register("milestone");
+			Hook::register('milestone');
 		}
 
 		function execute($milestone) {

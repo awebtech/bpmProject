@@ -8,6 +8,9 @@
 
 	class Mapping {
 		static function Get($prefix, $str, $forward = true) {
+			if (is_array($prefix)) {
+				$prefix = implode('|', $prefix);
+			}
 			$prefix = strtolower($prefix);
 			$hash = sha1($prefix.$str);
 

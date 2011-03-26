@@ -36,7 +36,9 @@
 		$server->fault('Server', $e->getMessage());
 	}
 
-	$server->send_response(); // actually send_response() is private, but I do not see any other fast and reliable solution
+	// actually send_response() is private,
+	// but I do not see any other fast and reliable solution to send back the error
+	$server->send_response(); 
 
 	die();
 
