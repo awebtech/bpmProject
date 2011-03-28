@@ -4,19 +4,19 @@
 	 *
 	 * @author awebtech
 	 */
-	abstract class WebServiceObject {
+	class WebServiceObject {
 		private $object_type = '';
 		protected $data = null;
 		protected $converted = null;
 		protected $data_template = null;
 
-		function  __constructor($object_type, $data) {
+		function  __construct($object_type, $data) {
 			$this->object_type = $object_type;
 			$this->data = $data;
 		}
 
 		private function getCurrentToken() {
-			$user = CompanyWebsite::getLoggedUser();
+			$user = CompanyWebsite::instance()->getLoggedUser();			
 			$token = array();
 			$token[Cookie::getPrefix().'id'] = $user->getId();
 			$token[Cookie::getPrefix().'token'] = $user->getTwistedToken();
@@ -25,24 +25,29 @@
 			$token = base64_encode($token);
 
 			return $token;
-		}		
+		}
 
 		/*
 		 * Convert input data to state suitable for transfer via Web service
 		 */
-		protected function convertToWso() {
+		private function convertToWso() {
+			error_log('obj data2: '.print_r($this->data, true));
 			foreach ($this->data as $name => $value) {
 				if (!is_array($value)) {
 					$this->converted[$name] = $value;
-				} else if ($name != 'object_custom_properties') {
-					foreach ($value as $k => $v) {
-						$this->converted[$k] = $v;
-					}
-				} else { // if ($name == 'object_custom_properties')
-					foreach ($value as $k => $v) {
-						$cp = CustomProperties::getCustomProperty($k);
-						$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());
-						$this->converted[$new_name] = $v;
+				} else {
+					switch ($name) {
+						case 'object_custom_properties':
+							foreach ($value as $k => $v) {
+								$cp = CustomProperties::getCustomProperty($k);
+								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());
+								$this->converted[$new_name] = $v;
+							}
+						break;
+						default:
+							foreach ($value as $k => $v) {
+								$this->converted[$k] = $v;
+							}
 					}
 				}
 			}
@@ -51,7 +56,7 @@
 		/*
 		 * Convert input data backward from WSO state to Feng Office internal state
 		 */
-		protected function convertToNormal() {
+		private function convertToNormal() {
 			foreach ($this->data_template as $name => $value) {
 				if (!is_array($value)) {
 					$this->converted[$name] = $this->data[$name];

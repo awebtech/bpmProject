@@ -175,7 +175,6 @@ class MilestoneController extends ApplicationController {
 	 * @return null
 	 */
 	function add() {
-		//error_log(print_r($_POST, true));
 		if (0 || logged_user()->isGuest()) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
@@ -192,8 +191,13 @@ class MilestoneController extends ApplicationController {
 		
 		if (is_array(array_var($_POST, 'milestone'))) {
 			try {
-				$object = new MilestoneWso('ProjectMilestone', $_POST['milestone']);
-				$client = new WebServiceClient($wsdl_url);
+				$object = new MilestoneWso('ProjectMilestone', $_POST);
+				error_log(print_r($object->createWsoState(), true));
+				error_log('END');
+				flash_error(lang('FUCK OFF'));
+				ajx_current("empty");
+				return;
+				$client = new WebServiceClient($wsdl_url);								
 				$milestone_id = $client->call($operation, $object->createWsoState()); // Create new milestone via BPMS
 
 				$milestone = ProjectMilestones::findById($milestone_id);
