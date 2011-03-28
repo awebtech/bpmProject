@@ -5,7 +5,7 @@
 	 * @author awebtech
 	 */
 	class MilestoneWso extends WebServiceObject {
-		function  __construct($object_type, $data) {
+		function  __construct($data) {
 			$this->data_template = array(
 				'id' => 0,
 				'milestone' => array(
@@ -27,7 +27,7 @@
 				'updatedon' => '',
 			);
 
-			parent::__construct($object_type, $data);
+			parent::__construct('ProjectMilestone', $data);
 		}
 	}
 ?>

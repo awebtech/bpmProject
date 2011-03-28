@@ -31,8 +31,13 @@
 		 * Convert input data to state suitable for transfer via Web service
 		 */
 		private function convertToWso() {
-			error_log('obj data2: '.print_r($this->data, true));
-			foreach ($this->data as $name => $value) {
+			foreach ($this->data_template as $name => $value) {
+				if (array_key_exists($name, $this->data)) {
+					$value = $this->data[$name];
+				} else {
+					$this->converted[$name] = '';
+					continue;
+				}
 				if (!is_array($value)) {
 					$this->converted[$name] = $value;
 				} else {
@@ -40,14 +45,20 @@
 						case 'object_custom_properties':
 							foreach ($value as $k => $v) {
 								$cp = CustomProperties::getCustomProperty($k);
-								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());
+								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());								
 								$this->converted[$new_name] = $v;
 							}
 						break;
 						default:
-							foreach ($value as $k => $v) {
+							foreach ($this->data_template[$name] as $k => $v) {
 								$this->converted[$k] = $v;
+								if (array_key_exists($k, $this->data[$name])) {
+									$this->converted[$k] = $this->data[$name][$k];
+								} else {
+									$this->converted[$k] = '';
+								}
 							}
+						break;
 					}
 				}
 			}

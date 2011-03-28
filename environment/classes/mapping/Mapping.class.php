@@ -11,14 +11,14 @@
 			if (is_array($prefix)) {
 				$prefix = implode('|', $prefix);
 			}
-			$prefix = strtolower($prefix);
+
 			$hash = sha1($prefix.$str);
 
-			$name = $forward ? 'mapping2' : 'mapping1';
+			$column_name = $forward ? 'mapping2' : 'mapping1';
 
 			$sql = "
 				SELECT
-					$name
+					$column_name AS str
 				FROM
 					".TABLE_PREFIX."mapping
 				WHERE
@@ -31,7 +31,7 @@
 				return false;
 			}
 
-			return $mapping['name'];
+			return $mapping['str'];
 		}
 	}
 
