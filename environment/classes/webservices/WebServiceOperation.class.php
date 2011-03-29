@@ -42,6 +42,7 @@
 
 			$controller->setAutoRender(false);
 
+			error_log('action: '.$action);
 			return $controller->execute($action);
 		}
 	}

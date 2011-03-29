@@ -7,12 +7,22 @@
 	define('CONSOLE_MODE', true);
 
 	try {
-		$ws_web_dir = dirname($_SERVER['PHP_SELF']).'/';
+		/*$ws_web_dir = strtolower(dirname($_SERVER['PHP_SELF']).'/');
 
-		$service = str_replace($ws_web_dir, '', $_SERVER['REDIRECT_URL']);
+		error_log(print_r('$ws_web_dir: '.$ws_web_dir, true));
+
+		$service = strtolower(str_replace($ws_web_dir, '', $_SERVER['REDIRECT_URL']));
+
+		error_log(print_r('service: '.$service, true));
 
 		$service = explode('/', $service);
 		$service = current($service);
+
+		error_log(print_r('service: '.$service, true));
+		error_log(print_r($_SERVER, true));*/
+
+		$service = explode('/', $_SERVER['REDIRECT_URL']);
+		$service = end($service);
 
 		// to fix error with nusoap wsdl view
 		$_SERVER['SCRIPT_NAME'] = $_SERVER['REDIRECT_URL'];
@@ -27,6 +37,9 @@
 		$service::register($server);
 
 		$HTTP_RAW_POST_DATA = file_get_contents("php://input");
+
+		//error_log(print_r($HTTP_RAW_POST_DATA, true));
+
 		$server->service($HTTP_RAW_POST_DATA);
 
 		exit;

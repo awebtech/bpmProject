@@ -78,6 +78,7 @@
 				} else { // if ($name == 'object_custom_properties')
 					foreach ($value as $k => $v) {
 						$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $k, false);
+						error_log('CustomProperties::getCustomPropertyByName($this->object_type, $new_name):'.'CustomProperties::getCustomPropertyByName('.$this->object_type.', '.$new_name.')');
 						$cp = CustomProperties::getCustomPropertyByName($this->object_type, $new_name);
 						$this->converted[$name][$cp->getId()] = $this->data[$k];
 					}
@@ -86,14 +87,20 @@
 		}
 
 		// Create object
-		function createWsoState() {
+		function getWsoState($complexType = '') {
 			$this->convertToWso();
-			$this->converted['token'] = $this->getCurrentToken();
+			if (!empty($complexType)) {
+				$result[$complexType] = $this->converted;
+				$result['token'] = $this->getCurrentToken();
+			} else {
+				$result = $this->converted;
+				$result['token'] = $this->getCurrentToken();
+			}
 
-			return $this->converted;
+			return $result;
 		}
 
-		function createNormalState() {
+		function getNormalState() {
 			$this->convertToNormal();
 
 			return $this->converted;

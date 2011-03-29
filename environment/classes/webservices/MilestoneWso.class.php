@@ -27,7 +27,7 @@
 				'updatedon' => '',
 			);
 
-			parent::__construct('ProjectMilestone', $data);
+			parent::__construct('ProjectMilestones', $data);
 		}
 	}
 ?>

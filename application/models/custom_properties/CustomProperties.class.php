@@ -73,7 +73,7 @@ class  CustomProperties extends  BaseCustomProperties {
 	static function getCustomPropertyByName($object_type, $custom_property_name) {
 		return self::findOne(array(
         'conditions' => array("`object_type` = ? and `name` = ? ",
-			$object_type, $property_name)
+			$object_type, $custom_property_name)
 		)); // findAll
 	} //  getCustomPropertyByName
 
