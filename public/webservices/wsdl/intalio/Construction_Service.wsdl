@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:Construction_Service="http://example.com/Diagramms/FO_Construction/Construction_Service"
+                  xmlns:Milestone="tns"
+                  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                  xmlns:diag="http://example.com/Diagramms/FO_Construction"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:tns="http://www.example.org/Milestone"
+                  xmlns:encoding="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:this="http://example.com/Diagramms/FO_Construction/Construction_FO"
+                  xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:Construction_FOimplicitPartner="http://example.com/Diagramms/FO_Construction/Construction_FOimplicitPartner"
+                  targetNamespace="http://example.com/Diagramms/FO_Construction/Construction_FO">
+   <wsdl:types>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+                 targetNamespace="http://example.com/Diagramms/FO_Construction/Construction_FO">
+         <xs:import namespace="http://www.example.org/Milestone"
+                    schemaLocation="Milestone.xsd"/>
+         <xs:element name="Start_Project_FORequest" type="tns:TypeInputMilestone"/>
+         <xs:element name="Start_Project_FOResponse" type="tns:TypeOutputMilestone"/>
+         <xs:element name="Start_Project_FOMilestoneError" type="tns:ErrorMileStone"/>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="Start_Project_FORequest">
+      <wsdl:part name="body" element="this:Start_Project_FORequest"/>
+   </wsdl:message>
+   <wsdl:message name="Start_Project_FOResponse">
+      <wsdl:part name="body" element="this:Start_Project_FOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="Start_Project_FOMilestoneError">
+      <wsdl:part name="body" element="this:Start_Project_FOMilestoneError"/>
+   </wsdl:message>
+   <wsdl:portType name="FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/Construction_ServicePortType">
+      <wsdl:operation name="Start_Project_FO">
+         <wsdl:input message="this:Start_Project_FORequest"
+                     wsaw:Action="http://example.com/Diagramms/FO_Construction/Construction_FO/ForConstruction_Service/Start_Project_FO"/>
+         <wsdl:output message="this:Start_Project_FOResponse"
+                      wsaw:Action="http://example.com/Diagramms/FO_Construction/Construction_FO/ForConstruction_Service/Start_Project_FOResponse"/>
+         <wsdl:fault message="this:Start_Project_FOMilestoneError"
+                     name="Start_Project_FOMilestoneError"
+                     wsaw:Action="urn:Start_Project_FOStart_Project_FOMilestoneError"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="CanonicBindingForConstruction_Service"
+                 type="this:FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/Construction_ServicePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="Start_Project_FO">
+         <soap:operation soapAction="http://example.com/Diagramms/FO_Construction/Construction_FO/ForConstruction_Service/Start_Project_FO"
+                         style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="Start_Project_FOMilestoneError">
+            <soap:fault use="literal" name="Start_Project_FOMilestoneError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/Construction_Service">
+      <wsdl:port name="canonicPort" binding="this:CanonicBindingForConstruction_Service">
+         <soap:address location="http://devnmark:8080/ode/processes/FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/Construction_Service"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

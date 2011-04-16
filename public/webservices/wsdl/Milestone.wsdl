@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Milestone" targetNamespace="http://j2ee.netbeans.org/wsdl/bpmProject/Milestone"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/bpmProject/Milestone" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="createRequest">
+        <part name="milestone" type="xsd:string"/>
+    </message>
+    <message name="createResponse">
+        <part name="milestone_id" type="xsd:int"/>
+    </message>
+    <message name="createFault">
+        <part name="fault" type="xsd:string"/>
+    </message>
+    <portType name="MilestonePortType">
+        <operation name="create">
+            <input name="input1" message="tns:createRequest"/>
+            <output name="output1" message="tns:createResponse"/>
+            <fault name="fault1" message="tns:createFault"/>
+        </operation>
+    </portType>
+    <binding name="MilestoneBinding" type="tns:MilestonePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="create">
+            <soap:operation soapAction="http://localhost/bpmProject/public/webservices/Milestone/Create" style="document"/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output1">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault1">
+                <soap:fault name="fault1" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+    <service name="MilestoneService">
+        <port name="MilestonePort" binding="tns:MilestoneBinding">
+            <http:address location="http://localhost/bpmProject/public/webservices/Milestone"/>
+        </port>
+    </service>
+</definitions>
