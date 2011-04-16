@@ -87,20 +87,20 @@
 			$milestone = array();
 			$milestone['id'] = 0;
 			$milestone['milestone'] = array(
-				'name' => '',
-				'tags' => '',
-				'description' => '',
-				'assigned_to' => '',
+				'name' => 'Новый проект',
+				'tags' => 'тэг12',
+				'description' => 'Описание нового проекта',
+				'assigned_to' => '1:1',
 				'send_notification' => '',
 				'is_urgent' => '',
-				'due_date_value' => '',
+				'due_date_value' => '2011-04-26',
 				'is_template' => '',
 			);
-			$milestone['ws_ids'] = 0;
-			$milestone['taskFormAssignedToCombo'] = '';
+			$milestone['ws_ids'] = 1;
+			$milestone['taskFormAssignedToCombo'] = 'Me';
 			$milestone['object_custom_properties'] = array(
-					'start_date_value' => '',
-					'critical_date_value' => '',
+					'start_date_value' => '2011-04-20',
+					'critical_date_value' => '2011-04-25',
 			);
 			$milestone['updatedon'] = '';
 

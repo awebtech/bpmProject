@@ -48,11 +48,18 @@
 			$_GET['c'] = 'milestone';
 			$_GET['a'] = 'do_add';
 
-			if (!empty($milestone['object_custom_properties'])) {
-				$milestone['object_custom_properties'] = WebServiceComplexType::ToAssocArray($milestone['object_custom_properties']);
-			}
+			//error_log(print_r($milestone, true));
 
-			$_POST = $milestone;
+			$object = new MilestoneWso($milestone);
+			$object = $object->getNormalState();
+
+			//return '118';
+
+			/*if (!empty($milestone['object_custom_properties'])) {
+				$milestone['object_custom_properties'] = WebServiceComplexType::ToAssocArray($milestone['object_custom_properties']);
+			}*/
+
+			$_POST = $object;
 
 			self::ExecuteAction(request_controller(), request_action());
 
