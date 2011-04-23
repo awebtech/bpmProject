@@ -191,19 +191,24 @@ class MilestoneController extends ApplicationController {
 		
 		if (is_array(array_var($_POST, 'milestone'))) {
 			try {
-				$object = new MilestoneWso($_POST);
+				$wso = new MilestoneWso($_POST);
 				//error_log(print_r($object->createWsoState(), true));
 				//error_log('END');
 				//flash_error(print_r($object->createWsoState('Milestone'), true));
 				//ajx_current("empty");
 				//return;
-				$object = $object->getWsoState('milestone');
+				$wso = $wso->getWsoState('milestone');
 				//error_log(print_r($object, true));
 				//$client = new WebServiceClient('Milestone?wsdl');
 				//$milestone_id = $client->call('Milestone.Create', $object); // Create new milestone via BPMS
 				
 				$client = new WebServiceClient('Construction_Service?wsdl');
-				$milestone_id = $client->call('Start_Project_FO', $object); // Create new milestone via BPMS
+				$result = $client->Create($wso); // Create new milestone via BPMS
+				if (!empty($result->error)) {
+					throw new Exception($result->error);
+				} else {
+					$milestone_id = $result->milestone_id;
+				}
 
 				/*flash_error($milestone_id);
 				ajx_current("empty");
