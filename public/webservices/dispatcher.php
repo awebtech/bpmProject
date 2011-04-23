@@ -6,7 +6,7 @@
 
 	define('CONSOLE_MODE', true);
 
-	$server = new SoapServer();
+	$server = new SoapServer(NULL, array('uri' => 'example.com'));
 
 	$valid_services = array('Milestone');
 
@@ -21,11 +21,10 @@
 	try {
 		require realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.'index.php';
 
-		$wsdl_uri = '../wsdl/'.$service.'.wsdl';
+		$wsdl_uri = './wsdl/'.$service.'.wsdl';
 		$server = new SoapServer($wsdl_uri);
 		$server->setClass($service);		
-		$server->handle();		
-		exit;
+		$server->handle();
 	} catch (WebServiceFault $e) {
 		$server->fault($e->getFaultCode(), $e->getFaultString());
 	} catch (Exception $e) {

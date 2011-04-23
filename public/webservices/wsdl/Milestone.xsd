@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Milestone" xmlns:tns="http://www.example.org/Milestone" elementFormDefault="qualified">
 
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://xml.netbeans.org/schema/Milestone"
-    xmlns:tns="http://xml.netbeans.org/schema/Milestone"
-    elementFormDefault="qualified">
-    <xsd:complexType name="Milestone">
-        <xsd:all>
-            <xsd:element name="id" type="xsd:int"></xsd:element>
-            <xsd:element name="name" type="xsd:string"></xsd:element>
-            <xsd:element name="tags" type="xsd:string"></xsd:element>
-            <xsd:element name="description" type="xsd:string"></xsd:element>
-            <xsd:element name="assigned_to" type="xsd:string"></xsd:element>
-            <xsd:element name="send_notification" type="xsd:string"></xsd:element>
-            <xsd:element name="is_urgent" type="xsd:string"></xsd:element>
-            <xsd:element name="start_date_value" type="xsd:string"></xsd:element>
-            <xsd:element name="due_date_value" type="xsd:string"></xsd:element>
-            <xsd:element name="critical_date_value" type="xsd:string"></xsd:element>
-            <xsd:element name="is_template" type="xsd:string"></xsd:element>
-            <xsd:element name="ws_ids" type="xsd:string"></xsd:element>
-            <xsd:element name="taskFormAssignedToCombo" type="xsd:string"></xsd:element>
-            <xsd:element name="updatedon" type="xsd:string"></xsd:element>
-        </xsd:all>
-    </xsd:complexType>
-</xsd:schema>
+
+    <element name="CreateRequest" type="tns:milestone"></element>
+
+    <element name="CreateResponse" type="tns:milestoneResponse"></element>
+
+    <complexType name="milestone">
+    	<sequence>
+    		<element name="token" type="string"></element>
+    		<element name="milestone" type="tns:Milestone"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Milestone">
+    	<sequence>
+    		<element name="id" type="int"></element>
+    		<element name="name" type="string"></element>
+    		<element name="tags" type="string"></element>
+    		<element name="description" type="string"></element>
+    		<element name="assigned_to" type="string"></element>
+    		<element name="send_notification" type="string"></element>
+    		<element name="is_urgent" type="string"></element>
+    		<element name="start_date_value" type="string"></element>
+    		<element name="due_date_value" type="string"></element>
+    		<element name="critical_date_value" type="string"></element>
+    		<element name="is_template" type="boolean"></element>
+    		<element name="ws_ids" type="string"></element>
+    		<element name="taskFormAssignedToCombo" type="string"></element>
+    		<element name="updatedon" type="string"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="milestoneResponse">
+    	<sequence>
+    		<element name="milestone_id" type="int"></element>
+    		<element name="error" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>

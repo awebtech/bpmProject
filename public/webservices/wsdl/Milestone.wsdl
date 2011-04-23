@@ -1,43 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions name="Milestone" targetNamespace="http://j2ee.netbeans.org/wsdl/bpmProject/Milestone"
-    xmlns="http://schemas.xmlsoap.org/wsdl/"
-    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/bpmProject/Milestone" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
-    <types/>
-    <message name="createRequest">
-        <part name="milestone" type="xsd:string"/>
-    </message>
-    <message name="createResponse">
-        <part name="milestone_id" type="xsd:int"/>
-    </message>
-    <message name="createFault">
-        <part name="fault" type="xsd:string"/>
-    </message>
-    <portType name="MilestonePortType">
-        <operation name="create">
-            <input name="input1" message="tns:createRequest"/>
-            <output name="output1" message="tns:createResponse"/>
-            <fault name="fault1" message="tns:createFault"/>
-        </operation>
-    </portType>
-    <binding name="MilestoneBinding" type="tns:MilestonePortType">
-        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <operation name="create">
-            <soap:operation soapAction="http://localhost/bpmProject/public/webservices/Milestone/Create" style="document"/>
-            <input name="input1">
+﻿<?xml version='1.0' encoding='utf-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:this="http://example.com/Milestone/Milestone" xmlns:tns="http://www.example.org/Milestone" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Milestone_Service="http://example.com/Milestone/Milestone_Service" xmlns:diag="http://example.com/Milestone" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://example.com/Milestone/Milestone">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://example.com/Milestone/Milestone">
+            <xs:import namespace="http://www.example.org/Milestone" schemaLocation="Milestone.xsd"/>
+            <xs:element name="CreateRequest" type="tns:milestone"/>
+            <xs:element name="CreateResponse" type="tns:milestoneResponse"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="CreateRequest">
+        <wsdl:part name="body" element="this:CreateRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CreateResponse">
+        <wsdl:part name="body" element="this:CreateResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="ForMilestone_Service">
+        <wsdl:operation name="Create">
+            <wsdl:input message="this:CreateRequest" name="Create"/>
+            <wsdl:output message="this:CreateResponse" name="CreateResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CanonicBindingForMilestone_Service" type="this:ForMilestone_Service">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Create">
+            <!--<soap:operation style="document" soapAction="http://ws179.inside.lavtech.ru/server.php"/>-->
+			<soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Create"/>
+            <wsdl:input name="Create">
                 <soap:body use="literal"/>
-            </input>
-            <output name="output1">
+            </wsdl:input>
+            <wsdl:output name="CreateResponse">
                 <soap:body use="literal"/>
-            </output>
-            <fault name="fault1">
-                <soap:fault name="fault1" use="literal"/>
-            </fault>
-        </operation>
-    </binding>
-    <service name="MilestoneService">
-        <port name="MilestonePort" binding="tns:MilestoneBinding">
-            <http:address location="http://localhost/bpmProject/public/webservices/Milestone"/>
-        </port>
-    </service>
-</definitions>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CanonicServiceForMilestone_Service">
+        <wsdl:port name="canonicPort" binding="this:CanonicBindingForMilestone_Service">
+            <soap:address location="http://localhost/bpmProject/public/webservices/Milestone"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
