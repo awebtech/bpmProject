@@ -34,7 +34,7 @@
     </wsdl:binding>
     <wsdl:service name="CanonicServiceForMilestone_Service">
         <wsdl:port name="canonicPort" binding="this:CanonicBindingForMilestone_Service">
-            <soap:address location="http://localhost/bpmProject/public/webservices/Milestone"/>
+            <soap:address location="http://bpmproject/public/webservices/Milestone"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

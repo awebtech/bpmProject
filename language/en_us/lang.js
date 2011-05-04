@@ -639,6 +639,7 @@ addLangs({
     'boolean' : 'Boolean',
     'list' : 'List',
     'table' : 'Table',
+	'hidden' : 'Hidden',
     'values comma separated': 'Values (comma separated)',
     'columns comma separated': 'Columns (comma separated)',
     'default value' : 'Default value',

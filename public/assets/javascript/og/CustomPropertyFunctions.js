@@ -82,6 +82,7 @@ og.addCustomProperty = function(genid, property){
 		'<option value="date"' + (property != null && property.type == 'date' ? 'selected' : '') + '>' + lang('date') + '</option>' +
 		'<option value="memo"' + (property != null && property.type == 'memo' ? 'selected' : '') + '>' + lang('memo') + '</option>' +
 		'<option value="table"' + (property != null && property.type == 'table' ? 'selected' : '') + '>' + lang('table') + '</option>' +
+		'<option value="hidden"' + (property != null && property.type == 'hidden' ? 'selected' : '') + '>' + lang('hidden') + '</option>' +
 		'</select>';
 	var style = 'style="width:auto;padding-right:10px;"';
 	var styleHidden = 'style="width:100px;padding-right:10px;display:none;"';
