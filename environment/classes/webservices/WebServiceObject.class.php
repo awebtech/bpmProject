@@ -98,7 +98,9 @@
 			} else {
 				$request = $this->converted;				
 			}
-			$request->token = $this->getCurrentToken();
+			$token = new stdClass();
+			$token->token = $this->getCurrentToken();
+			$request->token = $token;
 
 			return $request;
 		}
