@@ -198,11 +198,17 @@ class MilestoneController extends ApplicationController {
 				//ajx_current("empty");
 				//return;
 				$wso = $wso->getWsoState('Milestone');
-				//error_log(print_r($object, true));
+				
+				//error_log(print_r($wso, true));
+				//error_log(print_r($_POST, true));
+				//flash_error(lang('no access permissions'));
+				//ajx_current("empty");
+				//return;
+				//
 				//$client = new WebServiceClient('Milestone?wsdl');
 				//$milestone_id = $client->call('Milestone.Create', $object); // Create new milestone via BPMS
-				mail('akornida@lavtech.ru', 'ms-post', print_r($_POST, true));
-				mail('akornida@lavtech.ru', 'ms', print_r($wso, true));	
+				//mail('akornida@lavtech.ru', 'ms-post', print_r($_POST, true));
+				//mail('akornida@lavtech.ru', 'ms', print_r($wso, true));	
 				$client = new WebServiceClient('Construction_Service');
 				$result = $client->Start_Project_FO($wso); // Create new milestone via BPMS
 				//$result = $client->request($wso);

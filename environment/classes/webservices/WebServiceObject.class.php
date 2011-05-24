@@ -32,10 +32,9 @@
 		 */
 		private function convertToWso() {
 			$this->converted = new stdClass();
-			foreach ($this->data_template as $name => $value) {
-				$search_name = strtolower($name);
-				if (array_key_exists($search_name, $this->data)) {
-					$value = $this->data[$search_name];
+			foreach ($this->data_template as $name => $value) {				
+				if (array_key_exists($name, $this->data)) {
+					$value = $this->data[$name];
 				} else {
 					$this->converted->$name = '';
 					continue;
@@ -43,12 +42,15 @@
 				if (!is_array($value)) {
 					$this->converted->$name = $value;
 				} else {
-					switch ($search_name) {
+					switch ($name) {
 						case 'object_custom_properties':
+							$cp_fields = array_keys($this->data_template['object_custom_properties']);
 							foreach ($value as $k => $v) {
 								$cp = CustomProperties::getCustomProperty($k);
-								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());								
-								$this->converted->$new_name = $v;
+								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());
+								if (in_array($new_name, $cp_fields)) {
+									$this->converted->$new_name = $v;
+								}
 							}
 						break;
 						default:
