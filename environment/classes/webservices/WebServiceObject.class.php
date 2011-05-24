@@ -33,8 +33,9 @@
 		private function convertToWso() {
 			$this->converted = new stdClass();
 			foreach ($this->data_template as $name => $value) {
-				if (array_key_exists($name, $this->data)) {
-					$value = $this->data[$name];
+				$search_name = strtolower($name);
+				if (array_key_exists($search_name, $this->data)) {
+					$value = $this->data[$search_name];
 				} else {
 					$this->converted->$name = '';
 					continue;
@@ -42,7 +43,7 @@
 				if (!is_array($value)) {
 					$this->converted->$name = $value;
 				} else {
-					switch ($name) {
+					switch ($search_name) {
 						case 'object_custom_properties':
 							foreach ($value as $k => $v) {
 								$cp = CustomProperties::getCustomProperty($k);

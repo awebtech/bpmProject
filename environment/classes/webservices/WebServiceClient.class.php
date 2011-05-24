@@ -10,9 +10,9 @@
 		function  __construct($service_name) {			
 			//$this->wsdl_base = ROOT_URL.'/public/webservices/';
 			//$wsdl_base = '';//'http://devnmark:8080/ode/processes/FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/';
-			$wsdl_base = ROOT_URL.'/public/webservices/wsdl';
+			$wsdl_base = ROOT_URL.'/public/webservices/wsdl/intalio';
 			$wsdl_uri = $wsdl_base.'/'.$service_name.'.wsdl';
-			$this->client = new SoapClient($wsdl_uri);
+			$this->client = new SoapClient($wsdl_uri, array('cache_wsdl' => WSDL_CACHE_NONE));
 
 		}
 

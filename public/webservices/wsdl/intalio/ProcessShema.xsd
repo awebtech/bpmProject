@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/ProcessShema" xmlns:tns="http://www.example.org/ProcessShema" elementFormDefault="qualified">
+
+
+    <element name="CreateProcess_request">
+    	<complexType>
+    		<sequence>
+    			<element name="name" type="string"></element>
+    			<element name="description" type="string"></element>
+    			<element name="date_start" type="string"></element>
+    			<element name="date_end" type="string"></element>
+    			<element name="date_critical_point" type="string"></element>
+    			<element name="process_type" type="string"></element>
+    			<element name="department" type="string"></element>
+    			<element name="assignee" type="string"></element>
+    			<element name="main_assignee" type="string"></element>
+    			<element name="workspace" type="string"></element>
+    			<element name="notifications" type="int" maxOccurs="unbounded" minOccurs="0"></element>
+    			<element name="confirm_supply_speed" type="boolean"></element>
+    			<element name="additional_supply" type="boolean"></element>
+    			<element name="as_enabled" type="boolean"></element>
+    			<element name="as_date_start" type="string"></element>
+    			<element name="as_date_critical" type="string"></element>
+    			<element name="as_duration" type="int"></element>
+    			<element name="as_present" type="int"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+    
+    <element name="CreateProcess_response">
+    	<complexType>
+    		<sequence>
+    			<element name="process_id" type="int"></element>
+    			<element name="error" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+</schema>

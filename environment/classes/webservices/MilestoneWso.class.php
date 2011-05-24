@@ -8,7 +8,7 @@
 		function  __construct($data) {
 			$this->data_template = array(
 				'id' => 0,
-				'milestone' => array(
+				'Milestone' => array(
 					'name' => '',
 					'tags' => '',
 					'description' => '',
