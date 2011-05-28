@@ -1,50 +1,62 @@
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-        xmlns:tns="http://www.example.org/Milestone"
-        attributeFormDefault="unqualified"
-        elementFormDefault="qualified"
-        targetNamespace="http://www.example.org/Milestone">
-   <element name="InputMilestone" type="tns:TypeInputMilestone"/>
-   <element name="OutputMilestone" type="tns:TypeOutputMilestone"/>
-   <complexType name="TypeInputMilestone">
-      <sequence>
-         <element name="Milestone">
-            <complexType>
-               <sequence>
-                  <element name="id" type="int"/>
-                  <element name="name" type="string"/>
-                  <element name="tags" type="string"/>
-                  <element name="description" type="string"/>
-                  <element name="assigned_to" type="string"/>
-                  <element name="send_notification" type="string"/>
-                  <element name="is_urgent" type="string"/>
-                  <element name="start_date_value" type="string"/>
-                  <element name="due_date_value" type="string"/>
-                  <element name="critical_date_value" type="string"/>
-                  <element name="is_template" type="boolean"/>
-                  <element name="ws_ids" type="string"/>
-                  <element name="taskFormAssignedToCombo" type="string"/>
-                  <element name="updatedon" type="string"/>
-               </sequence>
-            </complexType>
-         </element>
-         <element name="token">
-            <complexType>
-               <sequence>
-                  <element name="token" type="string"/>
-               </sequence>
-            </complexType>
-         </element>
-      </sequence>
-   </complexType>
-   <complexType name="TypeOutputMilestone">
-      <sequence>
-         <element name="milestone_id" type="string"/>
-      </sequence>
-   </complexType>
-   <element name="ExceptionReturn" type="tns:ErrorMileStone"/>
-   <complexType name="ErrorMileStone">
-      <sequence>
-         <element name="Error" type="string"/>
-      </sequence>
-   </complexType>
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Milestone" xmlns:tns="http://www.example.org/Milestone" elementFormDefault="qualified">
+
+    <element name="InputMilestone" type="tns:TypeInputMilestone"></element>
+
+    <element name="OutputMilestone" type="tns:TypeOutputMilestone"></element>
+    
+    <complexType name="TypeInputMilestone">
+    	<sequence>
+    		<element name="Milestone">
+    			<complexType>
+    				<sequence>
+    					<element name="id" type="int"></element>
+    					<element name="name" type="string"></element>
+    					<element name="tags" type="string"></element>
+    					<element name="description" type="string"></element>
+    					<element name="assigned_to" type="string"></element>
+    					<element name="send_notification"
+    						type="string">
+    					</element>
+    					<element name="is_urgent" type="string"></element>
+    					<element name="start_date_value"
+    						type="string">
+    					</element>
+    					<element name="due_date_value" type="string"></element>
+    					<element name="critical_date_value"
+    						type="string">
+    					</element>
+    					<element name="is_template" type="string"></element>
+    					<element name="ws_ids" type="string"></element>
+    					<element name="taskFormAssignedToCombo" type="string"></element>
+    					<element name="updatedon" type="string"></element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="token">
+    			<complexType>
+    				<sequence>
+    					<element name="token" type="string"></element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="TypeOutputMilestone">
+    	<sequence>
+    		<element name="milestone_id" type="int"></element>
+    		<element name="error" type="string"></element>
+    	</sequence>
+    </complexType>
+    
+
+
+    <element name="ExceptionReturn" type="tns:ErrorMileStone"></element>
+
+    <complexType name="ErrorMileStone">
+    	<sequence>
+    		<element name="Error" type="string"></element>
+    	</sequence>
+    </complexType>
 </schema>

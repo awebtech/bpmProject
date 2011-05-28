@@ -17,14 +17,25 @@ if(count($cps) > 0){
 				$default_value = $cpv->getValue();
 			}
 			$name = 'object_custom_properties['.$customProp->getId().']';
-			echo '<div style="margin-top:6px">';
+			if ($customProp->getType() != 'hidden') {
+				echo '<div style="margin-top:6px">';
+			} else {
+				echo '<div style="margin-top:0;">';
+			}
 
-			if ($customProp->getType() == 'boolean')
+			if ($customProp->getType() == 'boolean') {
 				echo checkbox_field($name, $default_value, array('tabindex' => $startTi + $ti, 'style' => 'margin-right:4px', 'id' => $genid . 'cp' . $customProp->getName()));
+			}
 
-			echo label_tag(clean($customProp->getName()), $genid . 'cp' . $customProp->getName(), $customProp->getIsRequired(), array('style' => 'display:inline'), $customProp->getType() == 'boolean'?'':':');
-			if ($customProp->getDescription() != ''){
-				echo '<span class="desc" style="margin-left:10px">- ' . clean($customProp->getDescription()) . '</span>';
+			if ($customProp->getType() == 'hidden') {
+				echo input_field($name, $default_value, array('tabindex' => $startTi + $ti, 'type' => 'hidden', 'id' => $genid . 'cp' . $customProp->getName()));
+			}
+
+			if ($customProp->getType() != 'hidden') {
+				echo label_tag(clean($customProp->getName()), $genid . 'cp' . $customProp->getName(), $customProp->getIsRequired(), array('style' => 'display:inline'), $customProp->getType() == 'boolean'?'':':');
+				if ($customProp->getDescription() != ''){
+					echo '<span class="desc" style="margin-left:10px">- ' . clean($customProp->getDescription()) . '</span>';
+				}
 			}
 			echo '</div>';
 

@@ -6,32 +6,20 @@
 	 */
 	class WebServiceClient {
 		private $client = null;
-		private $wsdl_base = '';
 
-		function  __construct($service_name) {
-			if (!class_exists('nusoap_client')) {
-				require ROOT.'/public/webservices/lib/nusoap.php';
-			}
-
+		function  __construct($service_name) {			
 			//$this->wsdl_base = ROOT_URL.'/public/webservices/';
-			$this->wsdl_base = 'http://devnmark:8080/ode/processes/FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/';
-			$this->client = new nusoap_client($this->wsdl_base.$service_name, true);
+			//$wsdl_base = '';//'http://devnmark:8080/ode/processes/FO_ConstructionProduction/Diagramms/FO_Construction/Construction_FO/';
+			$wsdl_base = ROOT_URL.'/public/webservices/wsdl/intalio';
+			$wsdl_uri = $wsdl_base.'/'.$service_name.'.wsdl';
+			$this->client = new SoapClient($wsdl_uri, array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => true));
 		}
 
-		function call($operation, $object) {
-			$result = $this->client->call($operation, $object);
-
-			if ($this->client->fault) {
-				//throw new Exception('soap fault: '.print_r($result, true));
-				//print_r($result);
-				$message = !empty($result['faultstring']) ? $result['faultstring'] : 'SOAP fault';
-				throw new Exception(lang($message));
-			} else {
-				$err = $this->client->getError();
-				if ($err) {
-					throw new Exception('soap error: '.$err);
-					// $this->client->getError();
-				}
+		function __call($method, $args) {
+			try {
+				$result = $this->client->$method($args[0]);
+			} catch (SoapFault $e) {
+				throw new Exception('SOAP error: '.$e->getMessage());
 			}
 
 			return $result;
