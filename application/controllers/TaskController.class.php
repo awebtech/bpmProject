@@ -832,8 +832,14 @@ class TaskController extends ApplicationController {
 	 * @return null
 	 */
 	function add_task() {
-		if (logged_user()->isGuest()) {
-			flash_error(lang('no access permissions'));
+		if (/*($_POST && 1) || */logged_user()->isGuest()) {
+			
+			//$this->addHelper('data_mapping');			
+			//$os_id = $_POST['task']['object_subtype'];			
+			//$gid = get_group_by_object_subtype($os_id);			
+			//error_log(print_r($gid, true)."\n\n", 3, 'C:\FILES\SERVER\php535\error.log');
+			//error_log(print_r($_POST, true), 3, 'C:\FILES\SERVER\php535\error.log');			
+			flash_error(lang('no access permissions'));			
 			ajx_current("empty");
 			return;
 		}

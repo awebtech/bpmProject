@@ -28,7 +28,19 @@
 //        'order' => '`name`'
 //      )); // array
 //    } // getgroupClients
-    
+  
+	/**
+	 * Return one group, given the group name
+	 *
+	 * @param String $group_name
+	 * @return array
+	 */
+	static function getGroupByName($group_name) {
+		return self::findOne(array(
+			'conditions' => array("`name` = ? ", $group_name)
+		)); // findOne
+	} //  getGroupByName
+	
   } // groups
 
 ?>

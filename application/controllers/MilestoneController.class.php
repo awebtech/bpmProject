@@ -175,8 +175,8 @@ class MilestoneController extends ApplicationController {
 	 * @return null
 	 */
 	function add() {
-		if (0 || logged_user()->isGuest()) {
-			flash_error(lang('no access permissions'));
+		if (logged_user()->isGuest()) {
+			//flash_error(lang('no access permissions'));			
 			ajx_current("empty");
 			return;
 		}
