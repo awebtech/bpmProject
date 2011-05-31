@@ -101,6 +101,9 @@
     'project form select message' => 'Please select note',
     'project form select task lists' => 'Please select task',
     
+	// Add group
+	'group name required' => 'Group name value is required',
+	  
     // Submit project form
     'form content required' => 'Please insert content into text field',
     

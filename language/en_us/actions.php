@@ -107,6 +107,7 @@
     'can manage configuration' => 'Can manage configuration',
     'can manage contacts' => 'Can manage all contacts',
     'group users' => 'Group users',
+	'group manager' => 'Group manager',
     
     
     // People

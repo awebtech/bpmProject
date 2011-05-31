@@ -105,7 +105,7 @@ class GroupController extends ApplicationController {
 				
 				$group->save();
 				if (array_var($_POST, 'user')) {
-					foreach (array_var($_POST, 'user') as $user_id => $val){
+					foreach (array_var($_POST, 'user') as $user_id => $val) {
 						if ($val=='checked' && is_numeric($user_id) && (Users::findById($user_id) instanceof  User)) {
 							$gu = new GroupUser();
 							$gu->setGroupId($group->getId());
@@ -121,7 +121,9 @@ class GroupController extends ApplicationController {
 
 			} catch(Exception $e) {
 				DB::rollback();
-				tpl_assign('error', $e);
+				//tpl_assign('error', $e);
+				flash_error($e->getMessage());
+				ajx_current("empty");
 			} // try
 		} // if
 	} // add_group

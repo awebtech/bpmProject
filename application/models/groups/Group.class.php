@@ -197,6 +197,19 @@ class Group extends BaseGroup {
 	} // getAddUserUrl
 
 	/**
+	 * Validate before save
+	 *
+	 * @access public
+	 * @param array $errors
+	 * @return boolean
+	 */
+	function validate(&$errors) {
+		if(!$this->validatePresenceOf('name')) {
+			$errors[] = lang('group name required');
+		}
+	} // validate
+	
+	/**
 	 * Delete this group and all related data
 	 *
 	 * @access public
