@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/shemaDataMapping" xmlns:tns="http://www.example.org/shemaDataMapping" elementFormDefault="qualified">
+
+    <element name="GetManagerByDepartment_request">
+    	<complexType>
+    		<sequence>
+    			<element name="department_id" type="int"></element>
+    			<element name="token" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+    <element name="GetManagerByDepartment_response">
+    	<complexType>
+    		<sequence>
+    			<element name="user_id" type="int"></element>
+    			<element name="error" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+
+
+    <element name="GetWorkspaceByDepartmentAndWorkflow_request">
+    	<complexType>
+    		<sequence>
+    			<element name="department_id" type="int"></element>
+    			<element name="workflow_stage" type="string"></element>
+    			<element name="token" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+    
+    <element name="GetWorkspaceByDepartmentAndWorkflow_response">
+    	<complexType>
+    		<sequence>
+    			<element name="workspace_id" type="int"></element>
+    			<element name="error" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+</schema>

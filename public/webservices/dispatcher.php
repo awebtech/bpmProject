@@ -8,7 +8,7 @@
 
 	$server = new SoapServer(NULL, array('uri' => 'example.com'));
 
-	$valid_services = array('Milestone');
+	$valid_services = array('Milestone', 'DataMapping');
 
 	$service = trim($_SERVER['REQUEST_URI'], '//');
 	$service = explode('/', $service);

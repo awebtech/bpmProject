@@ -41,6 +41,18 @@
 		)); // findOne
 	} //  getGroupByName
 	
+	/**
+	 * Return one group, given the group id
+	 *
+	 * @param String $group_name
+	 * @return array
+	 */
+	static function getGroupById($group_id) {
+		return self::findOne(array(
+			'conditions' => array("`id` = ? ", $group_id)
+		)); // findOne
+	} //  getGroupByName
+	
   } // groups
 
 ?>
