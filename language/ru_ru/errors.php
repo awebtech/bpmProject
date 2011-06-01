@@ -44,6 +44,7 @@
 	'task title required' => 'Необходимо ввести заголовок задачи',
 	'task text required' => 'Необходимо ввести текст задачи',
 	'group name required' => 'Необходимо ввести заголовок группы',
+	'group manager not in group' => 'Выбранный руководитель не находится среди пользователей группы',
 	'repeat x times must be a valid number between 1 and 1000' => 'Количество повторов должно быть действительным числом от 1 до 1000.',
 	'repeat period must be a valid number between 1 and 1000' => 'Период повтора должен быть действительным числом от 1 до 1000.',
 	'to repeat by start date you must specify task start date' => 'Чтобы повторить на дату начала, вы должны указать дату запуска задания',

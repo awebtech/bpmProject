@@ -57,6 +57,17 @@
       return $this->setColumnValue('name', $value);
     } // setName() 
     
+	/**
+    * Return value of 'manager' field
+    *
+    * @access public
+    * @param void
+    * @return string 
+    */
+    function getManager() {
+      return $this->getColumnValue('manager');
+    } // getName()
+	
     /**
     * Return value of 'created_on' field
     *

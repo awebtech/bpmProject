@@ -229,12 +229,6 @@ class Group extends BaseGroup {
 	function isGuest() {
 		return false;
 	}
-	
-	function getManager() {
-		$field_name = Mapping::Get('Group', 'manager');
-		
-		$cp = CustomProperties::getCustomPropertyByName($this->object_type, $field_name);
-	}
 
 } // group
 

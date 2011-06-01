@@ -15,7 +15,8 @@
     */
     static private $columns = array(
     	'id' => DATA_TYPE_INTEGER, 
-    	'name' => DATA_TYPE_STRING, 
+    	'name' => DATA_TYPE_STRING,
+		'manager' => DATA_TYPE_INTEGER,
     	'created_on' => DATA_TYPE_DATETIME, 
     	'created_by_id' => DATA_TYPE_INTEGER, 
     	'updated_on' => DATA_TYPE_DATETIME, 

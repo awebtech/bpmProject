@@ -457,10 +457,15 @@ function assign_to_select_box($list_name, $project = null, $selected = null, $at
 
 
 
-function user_select_box($list_name, $selected = null, $attributes = null) {
+function user_select_box($list_name, $selected = null, $attributes = null, $required = true) {
 	$logged_user = logged_user();
 	
 	$users = Users::getAll();
+	
+	if (!$required) {
+		$option_attributes = 0 == $selected ? array('selected' => 'selected') : null;
+		$options[] = option_tag(lang('unassigned'), 0, $option_attributes);
+	}
 	
 	if(is_array($users)) {
 		foreach($users as $user) {
