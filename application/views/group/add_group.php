@@ -67,6 +67,11 @@
   </fieldset>
 
    <fieldset class="">
+	 <legend><?php echo lang('group manager') ?></legend>
+	 <?php echo user_select_box('group[manager]', $group->getManager(), null, false); ?>
+   </fieldset>
+	  
+   <fieldset class="">
 	 <legend><?php echo lang('group users') ?></legend>
 		<?php 
 			$allUsers = Users::getAll();

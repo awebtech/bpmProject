@@ -75,6 +75,7 @@
 	'can manage configuration' => 'Разрешить изменять конфигурацию ',
 	'can manage contacts' => 'Разрешить управление контактами',
 	'group users' => 'Группы пользователей',
+	'group manager' => 'Руководитель группы',
 	'update people' => 'Обновить',
 	'remove user from project' => 'Удалить пользователя из проекта',
 	'remove company from project' => 'Удалить компанию из проекта',

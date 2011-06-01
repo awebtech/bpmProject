@@ -197,6 +197,19 @@ class Group extends BaseGroup {
 	} // getAddUserUrl
 
 	/**
+	 * Validate before save
+	 *
+	 * @access public
+	 * @param array $errors
+	 * @return boolean
+	 */
+	function validate(&$errors) {
+		if(!$this->validatePresenceOf('name')) {
+			$errors[] = lang('group name required');
+		}
+	} // validate
+	
+	/**
 	 * Delete this group and all related data
 	 *
 	 * @access public
@@ -215,12 +228,6 @@ class Group extends BaseGroup {
 
 	function isGuest() {
 		return false;
-	}
-	
-	function getManager() {
-		$field_name = Mapping::Get('Group', 'manager');
-		
-		$cp = CustomProperties::getCustomPropertyByName($this->object_type, $field_name);
 	}
 
 } // group

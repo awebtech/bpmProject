@@ -9,3 +9,6 @@ CREATE TABLE `mapping` (
 
 ALTER TABLE  `mapping` ADD UNIQUE  `mapping1` (  `mapping1` );
 ALTER TABLE  `mapping` ADD UNIQUE  `mapping2` (  `mapping2` );
+
+
+ALTER TABLE `groups` ADD `manager` INT NOT NULL DEFAULT '0' AFTER `name`;

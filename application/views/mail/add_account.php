@@ -325,7 +325,7 @@ if (!$mailAccount->isNew()){
 			</label>
 			<?php			
 			$select_box_attrib = array('id'=>$genid.'users_select_box');
-			echo user_select_box('users_select_box', logged_user()->getId(),$select_box_attrib);			
+			echo user_select_box('users_select_box', logged_user()->getId(),$select_box_attrib);
 		?>
 							
 		</div>

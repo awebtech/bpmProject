@@ -73,6 +73,26 @@ class GroupController extends ApplicationController {
 			$group->setFromAttributes($group_data);
 			try {
 				DB::beginWork();
+				
+				$group_users = array();				
+				$group_manager_valid = $group_data['manager'] > 0 ? false : true;
+				if (array_var($_POST, 'user')) {
+					foreach (array_var($_POST, 'user') as $user_id => $val) {
+						if ($val=='checked' && is_numeric($user_id) && (Users::findById($user_id) instanceof  User)) {
+							$gu = new GroupUser();							
+							$gu->setUserId($user_id);
+							$group_users[] = $gu;
+							if ($group_data['manager'] > 0 && $group_data['manager'] == $user_id) {
+								$group_manager_valid = true;
+							}
+						}
+					}
+				}
+				
+				if (!$group_manager_valid) {
+					throw new Exception(lang('group manager not in group'));
+				}
+				
 				$group->save();
 				//set permissions
 				$permissionsString = array_var($_POST,'permissions');
@@ -104,16 +124,13 @@ class GroupController extends ApplicationController {
 				} // if
 				
 				$group->save();
-				if (array_var($_POST, 'user')) {
-					foreach (array_var($_POST, 'user') as $user_id => $val){
-						if ($val=='checked' && is_numeric($user_id) && (Users::findById($user_id) instanceof  User)) {
-							$gu = new GroupUser();
-							$gu->setGroupId($group->getId());
-							$gu->setUserId($user_id);
-							$gu->save();
-						}
+				if (!empty($group_users)) {
+					foreach ($group_users as $gu) {						
+						$gu->setGroupId($group->getId());
+						$gu->save();
 					}
 				}
+				
 				ApplicationLogs::createLog($group, null, ApplicationLogs::ACTION_ADD);
 				DB::commit();
 				flash_success(lang('success add group', $group->getName()));
@@ -121,7 +138,9 @@ class GroupController extends ApplicationController {
 
 			} catch(Exception $e) {
 				DB::rollback();
-				tpl_assign('error', $e);
+				//tpl_assign('error', $e);
+				flash_error($e->getMessage());
+				ajx_current("empty");
 			} // try
 		} // if
 	} // add_group
@@ -192,6 +211,26 @@ class GroupController extends ApplicationController {
 			if(array_var($group_data, "can_add_mail_accounts") != 'checked') $group->setCanAddMailAccounts(false);
 			try {
 				DB::beginWork();
+								
+				$group_users = array();				
+				$group_manager_valid = $group_data['manager'] > 0 ? false : true;
+				if (array_var($_POST, 'user')) {
+					foreach (array_var($_POST, 'user') as $user_id => $val) {
+						if ($val=='checked' && is_numeric($user_id) && (Users::findById($user_id) instanceof  User)) {
+							$gu = new GroupUser();							
+							$gu->setUserId($user_id);
+							$group_users[] = $gu;
+							if ($group_data['manager'] > 0 && $group_data['manager'] == $user_id) {
+								$group_manager_valid = true;
+							}
+						}
+					}
+				}
+				
+				if (!$group_manager_valid) {
+					throw new Exception(lang('group manager not in group'));
+				}
+				
 				//set permissions
 				$permissionsString = array_var($_POST,'permissions');
 				if ($permissionsString && $permissionsString != ''){
@@ -223,16 +262,14 @@ class GroupController extends ApplicationController {
 				
 				$group->save();
 				GroupUsers::clearByGroup($group);
-				if (array_var($_POST, 'user')){
-					foreach (array_var($_POST, 'user') as $user_id => $val){
-						if ($val == 'checked' && is_numeric($user_id) && (Users::findById($user_id) instanceof User)) {
-							$gu = new GroupUser();
-							$gu->setGroupId($group->getId());
-							$gu->setUserId($user_id);
-							$gu->save();
-						}
+				
+				if (!empty($group_users)) {
+					foreach ($group_users as $gu) {						
+						$gu->setGroupId($group->getId());
+						$gu->save();
 					}
-				}				
+				}
+				
 				ApplicationLogs::createLog($group, null, ApplicationLogs::ACTION_EDIT);
 				DB::commit();
 
@@ -241,7 +278,9 @@ class GroupController extends ApplicationController {
 
 			} catch(Exception $e) {
 				DB::rollback();
-				tpl_assign('error', $e);
+				//tpl_assign('error', $e);
+				flash_error($e->getMessage());
+				ajx_current("empty");
 			} // try
 		} // if
 	} // edit_group

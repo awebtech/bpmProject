@@ -101,6 +101,10 @@
     'project form select message' => 'Please select note',
     'project form select task lists' => 'Please select task',
     
+	// Add group
+	'group name required' => 'Group name value is required',
+	'group manager not in group' => 'Selected group manager doesn\'t belong to selected group users',
+	  
     // Submit project form
     'form content required' => 'Please insert content into text field',
     
