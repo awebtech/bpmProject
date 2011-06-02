@@ -39,50 +39,25 @@
 				return $return;
 			}
 			
+			$group = Groups::getGroupById($wso->department_id);
+			if (!($group instanceof Group)) {
+				$return->error = 'Group not found';
+				return $return;
+			}
+			
+			// We will search for the goal workspace inside the root workspace
+			$root_ws_name = Mapping::Get('GroupToWorkspace', $group->getName());
+			$ws_name = Mapping::Get('WorkflowToWorkspace', $wso->workflow_stage);
+						
+			$root_ws = Projects::getByName($root_ws_name);
+			
+			if (!($root_ws instanceof Project)) {
+				$return->error = 'Group workspace not found';
+				return $return;
+			}
+			
 			return $return;
 		}
-		/*
-
-		class Update extends WebServiceOperationWithAuth {
-		function  __construct($args) {
-			parent::__construct($args);
-
-			Env::useHelper('permissions');
-			Hook::register('milestone');
-		}
-
-		function execute($milestone) {
-			$_GET['c'] = 'milestone';
-			$_GET['a'] = 'edit';
-			$_GET['id'] = $milestone['id'];
-
-			if (!empty($milestone['object_custom_properties'])) {
-				$milestone['object_custom_properties'] = WebServiceComplexType::ToAssocArray($milestone['object_custom_properties']);
-			}
-
-			$_POST = $milestone;
-
-			self::ExecuteAction(request_controller(), request_action());
-
-			$error = flash_get('error');
-
-			if (!empty($error)) {
-				throw new WebServiceFault('Client', $error);
-			}
-
-			return true;
-		}
-
 	}
 
-		*/
-	}
-
-	// This function is here to process FengOffice validation hook and don't miss the errors
-	function milestone_object_validate($object, &$errors) {
-		if ($object instanceof ProjectMilestone && !empty($errors)) {
-			//throw new WebServiceFault('Client', implode("\n", $errors));
-			Milestone::setHookError(implode("\n", $errors));
-		}
-	}
 ?>
