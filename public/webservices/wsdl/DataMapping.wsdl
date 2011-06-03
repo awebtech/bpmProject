@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:diag="http://example.com/DataMapping" xmlns:Services="http://example.com/DataMapping/Services" xmlns:tns="http://www.example.org/shemaDataMapping" xmlns:shemaDataMapping="http://www.example.org/shemaDataMapping" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:this="http://example.com/DataMapping/DataMapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://example.com/DataMapping/DataMapping">
     <wsdl:types>
         <xs:schema targetNamespace="http://www.example.org/shemaDataMapping">
@@ -12,7 +12,7 @@
         <wsdl:part name="body" element="tns:GetManagerByDepartment_response"/>
     </wsdl:message>
     <wsdl:message name="GetWorkspaceByDepartmentAndWorkflowRequest">
-        <wsdl:part name="body" element="tns:GetManagerByDepartment_request"/>
+        <wsdl:part name="body" element="tns:GetWorkspaceByDepartmentAndWorkflow_request"/>
     </wsdl:message>
     <wsdl:message name="GetWorkspaceByDepartmentAndWorkflowResponse">
         <wsdl:part name="body" element="tns:GetWorkspaceByDepartmentAndWorkflow_response"/>

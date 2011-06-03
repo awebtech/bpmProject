@@ -45,16 +45,20 @@
 				return $return;
 			}
 			
-			// We will search for the goal workspace inside the root workspace
+			// We will search for the target workspace inside the root workspace
 			$root_ws_name = Mapping::Get('GroupToWorkspace', $group->getName());
 			$ws_name = Mapping::Get('WorkflowToWorkspace', $wso->workflow_stage);
-						
-			$root_ws = Projects::getByName($root_ws_name);
 			
-			if (!($root_ws instanceof Project)) {
-				$return->error = 'Group workspace not found';
+			$target_ws_name = $root_ws_name.'/'.$ws_name;
+			
+			$workspace = Projects::getProjectFromPath($target_ws_name);
+			
+			if (!($workspace instanceof Project)) {
+				$return->error = 'Workspace "'.$target_ws_name.'" not found';
 				return $return;
 			}
+			
+			$return->workspace_id = $workspace->getId();
 			
 			return $return;
 		}
