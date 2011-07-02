@@ -197,7 +197,7 @@ class MilestoneController extends ApplicationController {
 				//flash_error(print_r($object->createWsoState('Milestone'), true));
 				//ajx_current("empty");
 				//return;
-				$wso = $wso->getWsoState('Milestone');
+				$wso = $wso->getWsoState();
 				
 				//error_log(print_r($wso, true));
 				//error_log(print_r($_POST, true));
@@ -210,7 +210,7 @@ class MilestoneController extends ApplicationController {
 				//mail('akornida@lavtech.ru', 'ms-post', print_r($_POST, true));
 				//mail('akornida@lavtech.ru', 'ms', print_r($wso, true));	
 				$client = new WebServiceClient('Construction_Service');
-				$result = $client->Start_Project_FO($wso); // Create new milestone via BPMS
+				$result = $client->CreateProject($wso); // Create new milestone via BPMS
 				//$result = $client->request($wso);
 				if (!empty($result->error)) {
 					throw new Exception($result->error);					

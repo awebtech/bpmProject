@@ -4,7 +4,7 @@
 	 *
 	 * @author awebtech
 	 */
-	class WebServiceObject {
+	abstract class WebServiceObject {
 		private $object_type = '';
 		protected $data = null;
 		protected $converted = null;
@@ -27,10 +27,11 @@
 			return $token;
 		}
 
-		/*
-		 * Convert input data to state suitable for transfer via Web service
-		 */
-		private function convertToWso() {
+		/**
+		 * Description of convertToWsoFromArray
+		 * Convert input data (is it is an array) to state suitable for transfer via Web service
+		 */		
+		private function convertToWsoFromArray() {
 			$this->converted = new stdClass();
 			foreach ($this->data_template as $name => $value) {				
 				if (array_key_exists($name, $this->data)) {
@@ -66,6 +67,12 @@
 				}
 			}
 		}
+		
+		/*
+		 * Description of convertToWsoFromObject
+		 * Convert input data (is it is an object) to state suitable for transfer via Web service
+		 */
+		abstract protected function convertToWsoFromObject();
 
 		/*
 		 * Convert input data backward from WSO state to Feng Office internal state
@@ -90,17 +97,23 @@
 		}
 
 		// Create object
-		function getWsoState($complexType = '') {
-			$this->convertToWso();
-			$request = new stdClass();
-			if (!empty($complexType)) {
-				$request->$complexType = $this->converted;
+		function getWsoState() {
+			if (is_array($this->data)) {
+				$this->convertToWsoFromArray();
+			} else if (is_object($this->data)) {
+				$this->convertToWsoFromObject();
+			}
+			
+			$request = new stdClass();			
+			
+			if (!empty($this->complexType)) {
+				$request->{$this->complexType} = $this->converted;
 			} else {
 				$request = $this->converted;				
 			}
 			$token = new stdClass();
 			$token->token = $this->getCurrentToken();
-			$request->token = $token;
+			$request->auth = $token;
 
 			return $request;
 		}

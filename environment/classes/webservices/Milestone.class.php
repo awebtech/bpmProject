@@ -7,10 +7,10 @@
 	class Milestone extends WebService {
 		function Create($wso) {
 			$return = new stdClass();
-			$return->milestone_id = 0;
+			$return->milestone = null;
 			$return->error = '';
 
-			$auth_result = $this->auth($wso->token);
+			$auth_result = $this->auth($wso->auth->token);
 			if (true !== $auth_result) {
 				$return->error = $auth_result;
 				return $return;
@@ -41,7 +41,12 @@
 				return $return;
 			}
 
-			$return->milestone_id = MilestoneController::getMainObjectId();
+			$milestone_id = MilestoneController::getMainObjectId();
+			
+			$milestone = ProjectMilestones::findById($milestone_id);
+			
+			$wso = new MilestoneWso($milestone);
+			$wso = $wso->getWsoState('Milestone');
 			
 			return $return;
 		}
