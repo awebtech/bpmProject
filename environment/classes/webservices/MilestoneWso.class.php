@@ -5,7 +5,7 @@
 	 * @author awebtech
 	 */
 	class MilestoneWso extends WebServiceObject {
-		protected $complexType = 'Milestone';
+		protected $complexType = 'milestone';
 		
 		function  __construct($data) {
 			$this->data_template = array(
