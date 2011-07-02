@@ -48,6 +48,8 @@
 			$wso = new MilestoneWso($milestone);
 			$wso = $wso->getWsoState('Milestone');
 			
+			$return->milestone = $wso;
+			
 			return $return;
 		}
 
