@@ -825,25 +825,28 @@ class TaskController extends ApplicationController {
 	} // print_task
 
 	/**
-	 * Add new task
+	 * Send request to add new task
 	 *
 	 * @access public
 	 * @param void
 	 * @return null
 	 */
 	function add_task() {
-		if (/*($_POST && 1) || */logged_user()->isGuest()) {
+		if (($_POST && 1) || logged_user()->isGuest()) {
 			
 			//$this->addHelper('data_mapping');			
 			//$os_id = $_POST['task']['object_subtype'];			
 			//$gid = get_group_by_object_subtype($os_id);			
-			//error_log(print_r($gid, true)."\n\n", 3, 'C:\FILES\SERVER\php535\error.log');
-			//error_log(print_r($_POST, true), 3, 'C:\FILES\SERVER\php535\error.log');			
+			//error_log(print_r($gid, true)."\n\n", 3, 'C:\FILES\SERVER\php535\error.log'););
+			error_log(print_r($_POST, true), 3, 'C:\FILES\SERVER\php535\error.log');
+			error_log(print_r($_GET, true), 3, 'C:\FILES\SERVER\php535\error.log');
 			flash_error(lang('no access permissions'));			
 			ajx_current("empty");
 			return;
 		}
+		
 		$project = active_or_personal_project();
+		
 		if(!ProjectTask::canAdd(logged_user(), $project)) {
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
@@ -852,7 +855,38 @@ class TaskController extends ApplicationController {
 
 		$task = new ProjectTask();
 		$task_data = array_var($_POST, 'task');
-		if(!is_array($task_data)) {
+
+		if (is_array($task_data)) {
+			try {
+				$wso = new MilestoneWso($_POST);
+				$wso = $wso->getWsoState('Task');
+				
+				$client = new WebServiceClient('Construction_Service');
+				$result = $client->Start_Project_FO($wso); // Create new milestone via BPMS
+				
+				if (!empty($result->error)) {
+					throw new Exception($result->error);					
+				} else {
+					$milestone_id = $result->milestone_id;
+				}
+			} catch (Exception $e) {
+				flash_error($e->getMessage());
+				ajx_current("empty");
+				return;
+			}
+			
+			if ($task->getIsTemplate()) {
+				flash_success(lang('success add template', $task->getTitle()));
+			} else {
+				flash_success(lang('success add task list', $task->getTitle()));
+			}
+			if (array_var($task_data, 'inputtype') != 'taskview') {
+				ajx_current("back");
+			} else {
+				ajx_current("reload");
+			}
+			return;
+		} else {
 			$task_data = array(
 				'milestone_id' => array_var($_POST, 'milestone_id',0),
 				'project_id' => array_var($_POST, 'project_id',active_or_personal_project()->getId()),
@@ -876,23 +910,53 @@ class TaskController extends ApplicationController {
 				$task_data['tags'] = implode(", ", $email->getTagNames());
 				tpl_assign('from_email', $email);
 			}
-		} // if
-		
-		if (array_var($_GET, 'replace')) {
-			ajx_replace(true);
-		}
 
+			if (array_var($_GET, 'replace')) {
+				ajx_replace(true);
+			}
+
+			tpl_assign('task_data', $task_data);
+			tpl_assign('task', $task);
+		}
+	} // add_task
+	
+	
+	/**
+	 * Add new task
+	 *
+	 * @access public
+	 * @param void
+	 * @return null
+	 */
+	function do_add_task() {
+		if (logged_user()->isGuest()) {
+			flash_error(lang('no access permissions'));			
+			ajx_current("empty");
+			return;
+		}
+		
+		$project = active_or_personal_project();
+		
+		if(!ProjectTask::canAdd(logged_user(), $project)) {
+			flash_error(lang('no access permissions'));
+			ajx_current("empty");
+			return;
+		} // if		
+		
+		$task = new ProjectTask();
+		$task_data = array_var($_POST, 'task');
+		
 		tpl_assign('task_data', $task_data);
 		tpl_assign('task', $task);
-
-		if (is_array(array_var($_POST, 'task'))) {
+	
+		if (is_array($task_data)) {
 			$proj = Projects::findById(array_var($task_data, 'project_id'));
 			if ($proj instanceof Project) {
 				$project = $proj;
 			}
 			// order
 			$task->setOrder(ProjectTasks::maxOrder(array_var($task_data, "parent_id", 0), array_var($task_data, "milestone_id", 0)));
-				
+
 			$task_data['due_date'] = getDateValue(array_var($_POST, 'task_due_date'));
 			$task_data['start_date'] = getDateValue(array_var($_POST, 'task_start_date'));
 			try {
@@ -902,7 +966,7 @@ class TaskController extends ApplicationController {
 					ajx_current("empty");
 					return;
 				}
-				
+
 				$task->setFromAttributes($task_data);
 
 				$totalMinutes = (array_var($task_data, 'time_estimate_hours',0) * 60) +
@@ -923,6 +987,7 @@ class TaskController extends ApplicationController {
 				$task->setAssignedToCompanyId($company_id);
 				$task->setAssignedToUserId($user_id);
 
+				/* Commented by awebtech, there is no GET during "Task->Create" web-service operation processing
 				$id = array_var($_GET, 'id', 0);
 				$parent = ProjectTasks::findById($id);
 				if ($parent instanceof ProjectTask) {
@@ -931,6 +996,7 @@ class TaskController extends ApplicationController {
 						$task->setIsTemplate(true);
 					}
 				}
+				*/
 
 				if ($task->getParentId() > 0 && $task->hasChild($task->getParentId())) {
 					flash_error(lang('task child of child error'));
@@ -957,7 +1023,7 @@ class TaskController extends ApplicationController {
 				//$task->setProject($project);
 				//echo 'pepe'; DB::rollback(); die();
 				$task->setTagsFromCSV(array_var($task_data, 'tags'));
-					
+
 				foreach($handins as $handin_data) {
 					$handin = new ObjectHandin();
 					$handin->setFromAttributes($handin_data);
@@ -966,6 +1032,7 @@ class TaskController extends ApplicationController {
 					$handin->save();
 				} // foreach*/
 
+				/* Commented by awebtech, there is no GET during "Task->Create" web-service operation processing
 				if (array_var($_GET, 'copyId', 0) > 0) {
 					// copy remaining stuff from the task with id copyId
 					$toCopy = ProjectTasks::findById(array_var($_GET, 'copyId'));
@@ -973,7 +1040,8 @@ class TaskController extends ApplicationController {
 						ProjectTasks::copySubTasks($toCopy, $task, array_var($task_data, 'is_template', false));
 					}
 				}
-				
+				*/
+
 				//Link objects
 				$object_controller = new ObjectController();
 				if ($parent instanceof ProjectTask) {
@@ -999,25 +1067,15 @@ class TaskController extends ApplicationController {
 						evt_add("debug", $e->getMessage());
 					} // try
 				}
-
-				if ($task->getIsTemplate()) {
-					flash_success(lang('success add template', $task->getTitle()));
-				} else {
-					flash_success(lang('success add task list', $task->getTitle()));
-				}
-				if (array_var($task_data, 'inputtype') != 'taskview') {
-					ajx_current("back");
-				} else {
-					ajx_current("reload");
-				}
+				
 				self::$mainObjectId = $task->getId();
 			} catch(Exception $e) {
 				DB::rollback();
 				flash_error($e->getMessage());
 				ajx_current("empty");
 			} // try
-		} // if
-	} // add_task
+		}
+	}
 	
 	/**
 	 * Copy task
@@ -1080,10 +1138,10 @@ class TaskController extends ApplicationController {
 	 * @param void
 	 * @return null
 	 */
-	function edit_task() {
-		//error_log(print_r($_POST, true));
-		//error_log(print_r($_GET, true));
-		if (logged_user()->isGuest()) {
+	function edit_task() {		
+		if (/*($_POST && 1) && */logged_user()->isGuest()) {
+			//error_log(print_r($_POST, true));
+			//error_log(print_r($_GET, true));
 			flash_error(lang('no access permissions'));
 			ajx_current("empty");
 			return;
