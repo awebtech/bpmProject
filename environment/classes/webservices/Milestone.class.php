@@ -46,7 +46,7 @@
 			$milestone = ProjectMilestones::findById($milestone_id);
 			
 			$wso = new MilestoneWso($milestone);
-			$wso = $wso->getWsoState('Milestone');
+			$wso = $wso->getWsoState(true);
 			
 			$return->milestone = $wso;
 			

@@ -97,25 +97,31 @@
 		}
 
 		// Create object
-		function getWsoState() {
+		function getWsoState($simple = false) {
 			if (is_array($this->data)) {
 				$this->convertToWsoFromArray();
 			} else if (is_object($this->data)) {
 				$this->convertToWsoFromObject();
+			} else {
+				die('Unsupported web service object type');
 			}
 			
-			$request = new stdClass();			
+			if ($simple) {
+				return $this->converted;
+			}
+			
+			$wso_state = new stdClass();
 			
 			if (!empty($this->complexType)) {
-				$request->{$this->complexType} = $this->converted;
+				$wso_state->{$this->complexType} = $this->converted;
 			} else {
-				$request = $this->converted;				
+				$wso_state = $this->converted;				
 			}
 			$token = new stdClass();
 			$token->token = $this->getCurrentToken();
-			$request->auth = $token;
+			$wso_state->auth = $token;
 
-			return $request;
+			return $wso_state;
 		}
 
 		function getNormalState() {
