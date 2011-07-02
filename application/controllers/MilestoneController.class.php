@@ -213,9 +213,9 @@ class MilestoneController extends ApplicationController {
 				$result = $client->CreateProject($wso); // Create new milestone via BPMS
 				//$result = $client->request($wso);
 				if (!empty($result->error)) {
-					throw new Exception($result->error);					
+					throw new Exception($result->error);
 				} else {
-					$milestone_id = $result->milestone_id;
+					$milestone_id = $result->milestone->id;
 				}
 
 				/*flash_error($milestone_id);
