@@ -1,0 +1,40 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:this="http://example.com/Milestone/Milestone" xmlns:tns="http://www.example.org/Milestone" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Milestone_Service="http://example.com/Milestone/Milestone_Service" xmlns:diag="http://example.com/Milestone" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://example.com/Milestone/Milestone">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://example.com/Milestone/Milestone">
+            <xs:import namespace="http://www.example.org/Milestone" schemaLocation="Milestone.xsd"/>
+            <xs:element name="CreateRequest" type="tns:milestone"/>
+            <xs:element name="CreateResponse" type="tns:milestoneResponse"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="CreateRequest">
+        <wsdl:part name="body" element="this:CreateRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CreateResponse">
+        <wsdl:part name="body" element="this:CreateResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="ForMilestone_Service">
+        <wsdl:operation name="Create">
+            <wsdl:input message="this:CreateRequest" name="Create"/>
+            <wsdl:output message="this:CreateResponse" name="CreateResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CanonicBindingForMilestone_Service" type="this:ForMilestone_Service">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Create">
+            <!--<soap:operation style="document" soapAction="http://ws179.inside.lavtech.ru/server.php"/>-->
+			<soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Create"/>
+            <wsdl:input name="Create">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="CreateResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CanonicServiceForMilestone_Service">
+        <wsdl:port name="canonicPort" binding="this:CanonicBindingForMilestone_Service">
+            <soap:address location="http://bpmproject/public/webservices/Milestone"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

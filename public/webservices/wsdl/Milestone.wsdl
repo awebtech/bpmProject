@@ -1,10 +1,14 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:this="http://example.com/Milestone/Milestone" xmlns:tns="http://www.example.org/Milestone" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Milestone_Service="http://example.com/Milestone/Milestone_Service" xmlns:diag="http://example.com/Milestone" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://example.com/Milestone/Milestone">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:this="http://example.com/Milestone/Milestone" xmlns:tns="http://www.example.org/Milestone" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Milestone="http://www.example.org/Milestone_FO" xmlns:Milestone_Service="http://example.com/Milestone/Milestone_Service" xmlns:diag="http://example.com/Milestone" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://example.com/Milestone/Milestone">
     <wsdl:types>
         <xs:schema elementFormDefault="qualified" targetNamespace="http://example.com/Milestone/Milestone">
-            <xs:import namespace="http://www.example.org/Milestone" schemaLocation="Milestone.xsd"/>
-            <xs:element name="CreateRequest" type="tns:milestone"/>
-            <xs:element name="CreateResponse" type="tns:milestoneResponse"/>
+            <xs:import namespace="http://www.example.org/Milestone_FO" schemaLocation="Milestone.xsd"/>
+            <xs:element name="CreateRequest" type="Milestone:TypeInputMilestone"/>
+            <xs:element name="CreateResponse" type="Milestone:TypeOutputMilestone"/>
+            <xs:element name="ReadRequest" type="Milestone:TypeReadMilestone"/>
+            <xs:element name="ReadResponse" type="Milestone:TypeOutputMilestone"/>
+            <xs:element name="UpdateRequest" type="Milestone:TypeInputMilestone"/>
+            <xs:element name="UpdateResponse" type="Milestone:TypeOutputMilestone"/>
         </xs:schema>
     </wsdl:types>
     <wsdl:message name="CreateRequest">
@@ -13,21 +17,58 @@
     <wsdl:message name="CreateResponse">
         <wsdl:part name="body" element="this:CreateResponse"/>
     </wsdl:message>
+    <wsdl:message name="ReadRequest">
+        <wsdl:part name="body" element="this:ReadRequest"/>
+    </wsdl:message>
+    <wsdl:message name="ReadResponse">
+        <wsdl:part name="body" element="this:ReadResponse"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateRequest">
+        <wsdl:part name="body" element="this:UpdateRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateResponse">
+        <wsdl:part name="body" element="this:UpdateResponse"/>
+    </wsdl:message>
     <wsdl:portType name="ForMilestone_Service">
         <wsdl:operation name="Create">
             <wsdl:input message="this:CreateRequest" name="Create"/>
             <wsdl:output message="this:CreateResponse" name="CreateResponse"/>
         </wsdl:operation>
+        <wsdl:operation name="Read">
+            <wsdl:input message="this:ReadRequest" name="Read"/>
+            <wsdl:output message="this:ReadResponse" name="ReadResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="Update">
+            <wsdl:input message="this:UpdateRequest" name="Update"/>
+            <wsdl:output message="this:UpdateResponse" name="UpdateResponse"/>
+        </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="CanonicBindingForMilestone_Service" type="this:ForMilestone_Service">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Read">
+            <soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Read"/>
+            <wsdl:input name="Read">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="ReadResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
         <wsdl:operation name="Create">
-            <!--<soap:operation style="document" soapAction="http://ws179.inside.lavtech.ru/server.php"/>-->
-			<soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Create"/>
+            <soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Create"/>
             <wsdl:input name="Create">
                 <soap:body use="literal"/>
             </wsdl:input>
             <wsdl:output name="CreateResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Update">
+            <soap:operation style="document" soapAction="http://example.com/bpmProject/public/webservices/Milestone/Update"/>
+            <wsdl:input name="Update">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="UpdateResponse">
                 <soap:body use="literal"/>
             </wsdl:output>
         </wsdl:operation>
