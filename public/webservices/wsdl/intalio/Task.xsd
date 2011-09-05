@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Task"
+	xmlns:tns="http://www.example.org/Task" elementFormDefault="qualified">
+
+
+
+    <complexType name="Task">
+    	<sequence>
+    		<element name="id" type="int"></element>
+    		<element name="title" type="string"></element>
+    		<element name="tags" type="string"></element>
+    		<element name="milestone_id" type="int"></element>
+    		<element name="workflow_stage" type="string"></element>
+    		<element name="priority" type="int"></element>
+    		<element name="object_subtype" type="string"></element>
+    		<element name="text" type="string"></element>
+    		<element name="assigned_to" type="string"></element>
+    		<element name="main_assigned_to" type="string"></element>
+    		<element name="is_template" type="string"></element>
+    		<element name="updatedon" type="string"></element>
+    		<element name="merge-changes" type="string"></element>
+    		<element name="genid" type="string"></element>
+    		<element name="ws_ids" type="string"></element>
+    		<element name="task_start_date" type="string"></element>
+    		<element name="task_due_date" type="string"></element>
+    		<element name="task_critical_date" type="string"></element>
+    		<element name="department_id" type="int"></element>
+    		<element name="additional_supply"
+    			type="tns:AdditionalSupply">
+    		</element>
+    		<element name="is_due_date_confirmed_by_manager"
+    			type="string">
+    		</element>
+            <element name="completion_percentage" type="int"></element>
+            <element name="completion_status" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Auth">
+    	<sequence>
+    		<element name="token" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TypeInputTask">
+    	<sequence>
+    		<element name="task" type="tns:Task"></element>
+    		<element name="auth" type="tns:Auth"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TypeOutputTask">
+    	<sequence>
+    		<element name="task" type="tns:Task"></element>
+    		<element name="error" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TypeReadTask">
+    	<sequence>
+    		<element name="task_id" type="int"></element>
+    		<element name="auth" type="tns:Auth"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="InputTask" type="tns:TypeInputTask"></element>
+    
+    <element name="OutputTask" type="tns:TypeOutputTask"></element>
+    
+    <element name="ReadTask" type="tns:TypeReadTask"></element>
+
+    <complexType name="AdditionalSupply">
+    	<sequence>
+    		<element name="duration" type="int"></element>
+    		<element name="start_date" type="string"></element>
+    		<element name="critical_point" type="date"></element>
+    		<element name="frequency" type="int"></element>
+    	</sequence>
+    </complexType>
+</schema>

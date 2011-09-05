@@ -832,7 +832,7 @@ class TaskController extends ApplicationController {
 	 * @return null
 	 */
 	function add_task() {
-		if (($_POST && 1) || logged_user()->isGuest()) {
+		/*if (($_POST && 1) || logged_user()->isGuest()) {
 			
 			//$this->addHelper('data_mapping');			
 			//$os_id = $_POST['task']['object_subtype'];			
@@ -840,10 +840,16 @@ class TaskController extends ApplicationController {
 			//error_log(print_r($gid, true)."\n\n", 3, 'C:\FILES\SERVER\php535\error.log'););
 			error_log(print_r($_POST, true), 3, 'C:\FILES\SERVER\php535\error.log');
 			error_log(print_r($_GET, true), 3, 'C:\FILES\SERVER\php535\error.log');
+			
+			$wso = new TaskWso($_POST);
+			$wso = $wso->getWsoState();
+			
+			error_log(print_r($wso, true), 3, 'C:\FILES\SERVER\php535\error.log');
+			
 			flash_error(lang('no access permissions'));			
 			ajx_current("empty");
 			return;
-		}
+		}*/
 		
 		$project = active_or_personal_project();
 		
@@ -858,17 +864,25 @@ class TaskController extends ApplicationController {
 
 		if (is_array($task_data)) {
 			try {
-				$wso = new MilestoneWso($_POST);
-				$wso = $wso->getWsoState('Task');
+				$wso = new TaskWso($_POST);
+				$wso = $wso->getWsoState();
 				
-				$client = new WebServiceClient('Construction_Service');
-				$result = $client->Start_Project_FO($wso); // Create new milestone via BPMS
+				$client = new WebServiceClient('Task');
+				$result = $client->CreateTask($wso); // Create new task via BPMS
+				
+				error_log(print_r($result, true), 3, 'C:\FILES\SERVER\php535\error.log');
 				
 				if (!empty($result->error)) {
-					throw new Exception($result->error);					
+					throw new Exception($result->error);
 				} else {
-					$milestone_id = $result->milestone_id;
-				}
+					$task_id = $result->task->id;
+				}								
+				
+				flash_error(lang('no access permissions'));			
+				ajx_current("empty");
+				return;
+				
+				$task = ProjectTasks::findById($task_id);
 			} catch (Exception $e) {
 				flash_error($e->getMessage());
 				ajx_current("empty");
@@ -950,28 +964,33 @@ class TaskController extends ApplicationController {
 		tpl_assign('task', $task);
 	
 		if (is_array($task_data)) {
-			$proj = Projects::findById(array_var($task_data, 'project_id'));
+			
+			// Project is actually workspace, but $project is not used beyond, so I dunno why its necessary
+			/*$proj = Projects::findById(array_var($task_data, 'project_id'));
 			if ($proj instanceof Project) {
 				$project = $proj;
-			}
+			}*/
 			// order
+			
 			$task->setOrder(ProjectTasks::maxOrder(array_var($task_data, "parent_id", 0), array_var($task_data, "milestone_id", 0)));
 
 			$task_data['due_date'] = getDateValue(array_var($_POST, 'task_due_date'));
 			$task_data['start_date'] = getDateValue(array_var($_POST, 'task_start_date'));
 			try {
-				$err_msg = $this->setRepeatOptions($task_data);
+				// disabled as it is not needed and possibly will produce warnings
+				/*$err_msg = $this->setRepeatOptions($task_data);
 				if ($err_msg) {
 					flash_error($err_msg);
 					ajx_current("empty");
 					return;
-				}
+				}*/
 
 				$task->setFromAttributes($task_data);
 
-				$totalMinutes = (array_var($task_data, 'time_estimate_hours',0) * 60) +
+				// disabled as it is not needed and possibly will produce warnings
+				/*$totalMinutes = (array_var($task_data, 'time_estimate_hours',0) * 60) +
 						(array_var($task_data, 'time_estimate_minutes',0));
-				$task->setTimeEstimate($totalMinutes);
+				$task->setTimeEstimate($totalMinutes);*/
 
 				$task->setIsPrivate(false); // Not used, but defined as not null.
 				// Set assigned to
@@ -1004,6 +1023,8 @@ class TaskController extends ApplicationController {
 					return;
 				}
 
+				// I dunno what is "handing", so - commented
+				/*
 				//Add handins
 				$handins = array();
 				for($i = 0; $i < 4; $i++) {
@@ -1016,6 +1037,7 @@ class TaskController extends ApplicationController {
 						); // array
 					} // if
 				} // for
+				*/
 
 
 				DB::beginWork();
@@ -1024,14 +1046,17 @@ class TaskController extends ApplicationController {
 				//echo 'pepe'; DB::rollback(); die();
 				$task->setTagsFromCSV(array_var($task_data, 'tags'));
 
+				// I dunno what is "handing", so - commented
+				/*
 				foreach($handins as $handin_data) {
 					$handin = new ObjectHandin();
 					$handin->setFromAttributes($handin_data);
 					$handin->setObjectId($task->getId());
 					$handin->setObjectManager(get_class($task->manager()));
 					$handin->save();
-				} // foreach*/
-
+				} // foreach
+				*/
+				
 				/* Commented by awebtech, there is no GET during "Task->Create" web-service operation processing
 				if (array_var($_GET, 'copyId', 0) > 0) {
 					// copy remaining stuff from the task with id copyId
@@ -1139,13 +1164,18 @@ class TaskController extends ApplicationController {
 	 * @return null
 	 */
 	function edit_task() {		
-		if (/*($_POST && 1) && */logged_user()->isGuest()) {
-			//error_log(print_r($_POST, true));
-			//error_log(print_r($_GET, true));
-			flash_error(lang('no access permissions'));
+		if (($_POST && 1) || logged_user()->isGuest()) {
+			//$this->addHelper('data_mapping');			
+			//$os_id = $_POST['task']['object_subtype'];			
+			//$gid = get_group_by_object_subtype($os_id);			
+			//error_log(print_r($gid, true)."\n\n", 3, 'C:\FILES\SERVER\php535\error.log'););
+			error_log(print_r($_POST, true), 3, 'C:\FILES\SERVER\php535\error.log');
+			error_log(print_r($_GET, true), 3, 'C:\FILES\SERVER\php535\error.log');
+			flash_error(lang('no access permissions'));			
 			ajx_current("empty");
 			return;
 		}
+				
 		$this->setTemplate('add_task');
 
 		$task = ProjectTasks::findById(get_id());

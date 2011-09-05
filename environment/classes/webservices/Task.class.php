@@ -6,52 +6,52 @@
 	 * @author awebtech
 	 */
 	class Task extends WebService {
-		static function init() {
-			self::$operations = array(
-				'Create' => array(
-					'in' => array(
-						'task' => 'tns:Task'
-					),
-					'out' => array(
-						'return' => 'xsd:int'
-					),
-					'complexTypes' => array(
-						'KeyValue', 'TaskGeneric', 'CustomProperties', 'Task',
-					),
-				),
-			);
-		}
-	}
-	
-	// TODO: custom properties indexes are lost during requests, it is necesssary to convert them into array of structs key=>value
+		function Create($wso) {
+			$return = new stdClass();
+			$return->task = null;
+			$return->error = '';
 
-	class Create extends WebServiceOperationWithAuth {
-		function  __construct($args) {
-			parent::__construct($args);
-
-			Env::useHelper('permissions');
-			Hook::register("task");
-		}
-
-		function execute($task) {
-			$_GET['c'] = 'task';
-			$_GET['a'] = 'add_task';
-
-			if (!empty($task['object_custom_properties'])) {
-				$task['object_custom_properties'] = WebServiceComplexType::ToAssocArray($task['object_custom_properties']);
+			$auth_result = $this->auth($wso->auth->token);
+			if (true !== $auth_result) {
+				$return->error = $auth_result;
+				return $return;
 			}
 
-			$_POST = $task;
+			Env::useHelper('permissions');
+			Hook::register('task');
 
-			self::executeAction(request_controller(), request_action());
+			$_GET['c'] = 'task';
+			$_GET['a'] = 'do_add_task';
+
+			//error_log(print_r($task, true));
+
+			$task = new TaskWso($wso->task);
+
+			$this->executeAction($task);
 
 			$error = flash_get('error');
 
 			if (!empty($error)) {
-				throw new WebServiceFault('Client', $error);
+				//throw new WebServiceFault('Client', $error);
+				$return->error = $error;
+				return $return;
 			}
+
+			if ($this->wasHookError()) {
+				$return->error = $this->getHookError();
+				return $return;
+			}
+
+			$task_id = TaskController::getMainObjectId();
 			
-			return TaskController::getMainObjectId();
+			$task = ProjectTasks::findById($task_id);
+			
+			$wso = new TaskWso($task);
+			$wso = $wso->getWsoState(true);
+			
+			$return->task = $wso;
+			
+			return $return;
 		}
 	}
 

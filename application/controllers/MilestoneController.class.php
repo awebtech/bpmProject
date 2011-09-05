@@ -191,36 +191,17 @@ class MilestoneController extends ApplicationController {
 		
 		if (is_array(array_var($_POST, 'milestone'))) {
 			try {
-				$wso = new MilestoneWso($_POST);
-				//error_log(print_r($object->createWsoState(), true));
-				//error_log('END');
-				//flash_error(print_r($object->createWsoState('Milestone'), true));
-				//ajx_current("empty");
-				//return;
+				$wso = new MilestoneWso($_POST);				
 				$wso = $wso->getWsoState();
 				
-				//error_log(print_r($wso, true));
-				//error_log(print_r($_POST, true));
-				//flash_error(lang('no access permissions'));
-				//ajx_current("empty");
-				//return;
-				//
-				//$client = new WebServiceClient('Milestone?wsdl');
-				//$milestone_id = $client->call('Milestone.Create', $object); // Create new milestone via BPMS
-				//mail('akornida@lavtech.ru', 'ms-post', print_r($_POST, true));
-				//mail('akornida@lavtech.ru', 'ms', print_r($wso, true));	
-				$client = new WebServiceClient('Construction_Service');
+				$client = new WebServiceClient('Milestone');
 				$result = $client->CreateProject($wso); // Create new milestone via BPMS
-				//$result = $client->request($wso);
+				
 				if (!empty($result->error)) {
 					throw new Exception($result->error);
 				} else {
 					$milestone_id = $result->milestone->id;
-				}
-
-				/*flash_error($milestone_id);
-				ajx_current("empty");
-				return;*/
+				}				
 
 				$milestone = ProjectMilestones::findById($milestone_id);
 			} catch (Exception $e) {

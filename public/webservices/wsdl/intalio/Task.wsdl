@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pnlk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:this="http://example.com/Diagramms/TaskManagementProc/Task_Management" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/Task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Services="http://example.com/Diagramms/TaskManagementProc/Services" xmlns:diag="http://example.com/Diagramms/TaskManagementProc" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://example.com/Diagramms/TaskManagementProc/Task_Management">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://example.com/Diagramms/TaskManagementProc/Task_Management">
+            <xs:import namespace="http://www.example.org/Task" schemaLocation="Task.xsd"/>
+            <xs:element name="ReadTaskRequest" type="xs:string"/>
+            <xs:element name="ReadTaskResponse" type="xs:string"/>
+            <xs:element name="CreateTaskRequest" type="tns:TypeInputTask"/>
+            <xs:element name="CreateTaskResponse" type="tns:TypeOutputTask"/>
+            <xs:element name="UpdateTaskRequest" type="xs:string"/>
+            <xs:element name="UpdateTaskResponse" type="xs:string"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="ReadTaskRequest">
+        <wsdl:part name="body" element="this:ReadTaskRequest"/>
+    </wsdl:message>
+    <wsdl:message name="ReadTaskResponse">
+        <wsdl:part name="body" element="this:ReadTaskResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CreateTaskRequest">
+        <wsdl:part name="body" element="this:CreateTaskRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CreateTaskResponse">
+        <wsdl:part name="body" element="this:CreateTaskResponse"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateTaskRequest">
+        <wsdl:part name="body" element="this:UpdateTaskRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateTaskResponse">
+        <wsdl:part name="body" element="this:UpdateTaskResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="ForServices">
+        <wsdl:operation name="CreateTask">
+            <wsdl:input message="this:CreateTaskRequest" name="CreateTask"/>
+            <wsdl:output message="this:CreateTaskResponse" name="CreateTaskResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReadTask">
+            <wsdl:input message="this:ReadTaskRequest" name="ReadTask"/>
+            <wsdl:output message="this:ReadTaskResponse" name="ReadTaskResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateTask">
+            <wsdl:input message="this:UpdateTaskRequest" name="UpdateTask"/>
+            <wsdl:output message="this:UpdateTaskResponse" name="UpdateTaskResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CanonicBindingForServices" type="this:ForServices">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ReadTask">
+            <soap:operation style="document" soapAction="http://example.com/Diagramms/TaskManagementProc/Task_Management/ForServices/ReadTask"/>
+            <wsdl:input name="ReadTask">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="ReadTaskResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="CreateTask">
+            <soap:operation style="document" soapAction="http://example.com/Diagramms/TaskManagementProc/Task_Management/ForServices/CreateTask"/>
+            <wsdl:input name="CreateTask">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="CreateTaskResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateTask">
+            <soap:operation style="document" soapAction="http://example.com/Diagramms/TaskManagementProc/Task_Management/ForServices/UpdateTask"/>
+            <wsdl:input name="UpdateTask">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="UpdateTaskResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CanonicServiceForServices">
+        <wsdl:port name="canonicPort" binding="this:CanonicBindingForServices">
+            <soap:address location="http://devnmark:8080/ode/processes/ConstructionProduction1/Diagramms/TaskManagementProc/Task_Management/Services"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

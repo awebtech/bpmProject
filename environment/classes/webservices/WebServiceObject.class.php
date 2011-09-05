@@ -5,7 +5,7 @@
 	 * @author awebtech
 	 */
 	abstract class WebServiceObject {
-		private $object_type = '';
+		protected $object_type = '';
 		protected $data = null;
 		protected $converted = null;
 		protected $data_template = null;
@@ -29,7 +29,7 @@
 
 		/**
 		 * Description of convertToWsoFromArray
-		 * Convert input data (is it is an array) to state suitable for transfer via Web service
+		 * Convert input data (if it is an array) to state suitable for transfer via Web service
 		 */		
 		private function convertToWsoFromArray() {
 			$this->converted = new stdClass();
@@ -53,7 +53,7 @@
 									$this->converted->$new_name = $v;
 								}
 							}
-						break;
+						break;						
 						default:
 							foreach ($this->data_template[$name] as $k => $v) {
 								if (array_key_exists($k, $this->data[$name])) {
@@ -105,6 +105,8 @@
 			} else {
 				die('Unsupported web service object type');
 			}
+						
+			$this->wsoStatePostprocess();
 			
 			if ($simple) {
 				return $this->converted;
@@ -132,6 +134,10 @@
 
 		function getObject() {
 			return $object;
+		}
+		
+		protected function wsoStatePostprocess() {
+			return true;
 		}
 	}
 

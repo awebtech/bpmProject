@@ -47,9 +47,9 @@
 			$this->converted->ws_ids = $this->data->getWorkspacesIdsCSV();
 			$this->converted->taskFormAssignedToCombo = '';
 			foreach ($this->data_template['object_custom_properties'] as $cp_name => $empty) {
-				$cp_mapped_name = Mapping::Get(array('ProjectMilestones', 'object_custom_properties'), $cp_name, false);
+				$cp_mapped_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp_name, false);
 				
-				$cp = CustomProperties::getCustomPropertyByName('ProjectMilestones',  $cp_mapped_name);
+				$cp = CustomProperties::getCustomPropertyByName($this->object_type,  $cp_mapped_name);
 				$cp_value = CustomPropertyValues::getCustomPropertyValue($this->converted->id, $cp->getId());
 				$this->converted->$cp_name = $cp_value->getValue();
 			}
