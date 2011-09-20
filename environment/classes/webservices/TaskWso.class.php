@@ -30,8 +30,12 @@
 				'task_due_date' => '',
 				'taskFormAssignedToCombo' => '',
 				'object_custom_properties' => array(
-						'task_critical_date' => '',
-						'main_assigned_to' => '',
+					'task_critical_date' => '',
+					'main_assigned_to' => '',
+					'as_duration' => '',
+					'as_start_date' => '',
+					'as_critical_point' => '',
+					'as_frequency' => '',
 				),
 				// move below into custom properties ? what about top level = additional_supply (as) ? as->department_id for example
 				'is_due_date_confirmed_by_manager' => '',
@@ -67,13 +71,22 @@
 			$converted->task_due_date = $task->getDueDate()->toMySQL();
 			$converted->taskFormAssignedToCombo = '';
 			
+			$as_prefix = 'as_'; // Additional supply prefix
+			$as = new stdClass();
 			foreach ($this->data_template['object_custom_properties'] as $cp_name => $empty) {
 				$cp_mapped_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp_name, false);
 				
 				$cp = CustomProperties::getCustomPropertyByName($this->object_type,  $cp_mapped_name);
 				$cp_value = CustomPropertyValues::getCustomPropertyValue($task->id, $cp->getId());
+				if (stripos($cp_name, $as_prefix) !== false) { // If CP is related to the additional supply
+					$cp_name = substr($cp_name, 3);
+					$as->$cp_name = $cp_value->getValue();
+					continue;
+				}
 				$converted->$cp_name = $cp_value->getValue();
 			}
+			
+			$converted->additional_supply = $as;
 			
 			return true;
 		}
@@ -94,12 +107,12 @@
 			$group = Groups::getGroupByName($group_name);
 			$this->converted->$property = $group->getId();
 			
-			$property = 'additional_supply';
+			/*$property = 'additional_supply';
 			$this->converted->$property = new stdClass();
 			$this->converted->$property->duration = 12;
 			$this->converted->$property->start_date = '2011-01-01';
 			$this->converted->$property->critical_point = '2011-01-11';
-			$this->converted->$property->frequency = 1;
+			$this->converted->$property->frequency = 1;*/
 		}
 	}
 ?>

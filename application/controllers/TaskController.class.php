@@ -867,10 +867,12 @@ class TaskController extends ApplicationController {
 				$wso = new TaskWso($_POST);
 				$wso = $wso->getWsoState();
 				
+				//error_log(print_r($wso, true), 3, 'C:\FILES\SERVER\php535\error.log');
+				
 				$client = new WebServiceClient('Task');
 				$result = $client->CreateTask($wso); // Create new task via BPMS
 				
-				error_log(print_r($result, true), 3, 'C:\FILES\SERVER\php535\error.log');
+				//error_log(print_r($result, true), 3, 'C:\FILES\SERVER\php535\error.log');
 				
 				if (!empty($result->error)) {
 					throw new Exception($result->error);

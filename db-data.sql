@@ -27,3 +27,9 @@ INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUE
 INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_subtypes', 'Формирование графика производства', 'schedule_formation', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
 INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_subtypes', 'Поставка', 'supply', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
 INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_subtypes', 'Работа', 'job', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
+
+
+INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_custom_properties', 'ДП: длительность', 'as_duration', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
+INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_custom_properties', 'ДП: дата начала', 'as_start_date', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
+INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_custom_properties', 'ДП: критическая точка', 'as_critical_point', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));
+INSERT INTO `mapping` (`prefix`, `mapping1`, `mapping2`, `hash1`, `hash2`) VALUES ('ProjectTasks|object_custom_properties', 'ДП: периодичность напоминаний', 'as_frequency', sha1(CONCAT(`prefix`, `mapping1`)), sha1(CONCAT(`prefix`, `mapping2`)));

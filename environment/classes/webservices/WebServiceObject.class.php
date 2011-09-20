@@ -45,14 +45,22 @@
 				} else {
 					switch ($name) {
 						case 'object_custom_properties':
+							$as_prefix = 'as_'; // Additional supply prefix
+							$as = new stdClass();
 							$cp_fields = array_keys($this->data_template['object_custom_properties']);
 							foreach ($value as $k => $v) {
 								$cp = CustomProperties::getCustomProperty($k);
 								$new_name = Mapping::Get(array($this->object_type, 'object_custom_properties'), $cp->getName());
 								if (in_array($new_name, $cp_fields)) {
+									if (stripos($new_name, $as_prefix) !== false) { // If CP is related to the additional supply
+										$new_name = substr($new_name, 3);
+										$as->$new_name = $v;
+										continue;
+									}
 									$this->converted->$new_name = $v;
 								}
 							}
+							$this->converted->additional_supply = $as;
 						break;						
 						default:
 							foreach ($this->data_template[$name] as $k => $v) {
